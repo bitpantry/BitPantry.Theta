@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{82C85E62-6D26-4FC9-84DA-838F6BC6B927}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BitPantry.Theta.Modules</RootNamespace>
+    <AssemblyName>BitPantry.Theta.Modules</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Variables\Commands\DeleteVariableCommand.cs" />
+    <Compile Include="Variables\Commands\GetVariableCommand.cs" />
+    <Compile Include="Variables\Commands\ListVariablesCommand.cs" />
+    <Compile Include="Variables\Commands\OpenVariableContextFileCommand.cs" />
+    <Compile Include="Variables\Commands\SetVariableCommand.cs" />
+    <Compile Include="Variables\Commands\CreateVariableContextCommand.cs" />
+    <Compile Include="Variables\Commands\DeleteVariableContextCommand.cs" />
+    <Compile Include="Variables\Commands\ListVariableContextsCommand.cs" />
+    <Compile Include="Variables\Commands\SetVariableContextCommand.cs" />
+    <Compile Include="Variables\Util.cs" />
+    <Compile Include="Variables\VariableContext.cs" />
+    <Compile Include="Variables\VariableContextVariable.cs" />
+    <Compile Include="Variables\VariableContextCollection.cs" />
+    <Compile Include="Variables\VariableContextLogic.cs" />
+    <Compile Include="Variables\Module.cs" />
+    <Compile Include="Variables\TableRecords.cs" />
+    <Compile Include="Packages\Commands\AddPackageModuleCommand.cs" />
+    <Compile Include="Packages\Commands\CreatePackageCommand.cs" />
+    <Compile Include="Packages\Commands\DeletePackageCommand.cs" />
+    <Compile Include="Packages\Commands\ListPackageDetailsCommand.cs" />
+    <Compile Include="Packages\Commands\ListPackagesCommand.cs" />
+    <Compile Include="Packages\Commands\LoadPackageCommand.cs" />
+    <Compile Include="Packages\Commands\OpenPackagesFileCommand.cs" />
+    <Compile Include="Packages\Commands\RemovePackageModuleCommand.cs" />
+    <Compile Include="Packages\Commands\UnloadPackageCommand.cs" />
+    <Compile Include="Packages\PackageModule.cs" />
+    <Compile Include="Packages\Module.cs" />
+    <Compile Include="Packages\Package.cs" />
+    <Compile Include="Packages\PackageCollection.cs" />
+    <Compile Include="Packages\PackageLogic.cs" />
+    <Compile Include="Packages\TableRecords.cs" />
+    <Compile Include="Packages\Util.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BitPantry.Theta\BitPantry.Theta.csproj">
+      <Project>{36fc638c-9dd5-4f9a-9a3e-0d8bc6286bf0}</Project>
+      <Name>BitPantry.Theta</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

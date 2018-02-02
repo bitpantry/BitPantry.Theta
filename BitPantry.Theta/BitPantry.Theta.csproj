@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36FC638C-9DD5-4F9A-9A3E-0D8BC6286BF0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BitPantry.Theta</RootNamespace>
+    <AssemblyName>BitPantry.Theta</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BitPantry.Parsing.Strings, Version=1.0.31847.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BitPantry.Parsing.Strings.1.0.31847.5\lib\net45\BitPantry.Parsing.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\AliasAttribute.cs" />
+    <Compile Include="API\CommandAttribute.cs" />
+    <Compile Include="API\CommandInvocationContext.cs" />
+    <Compile Include="API\ISwitchDefinition.cs" />
+    <Compile Include="API\SwitchAttribute.cs" />
+    <Compile Include="API\SwitchDef.cs" />
+    <Compile Include="API\SwitchParameter.cs" />
+    <Compile Include="API\SynopsisAttribute.cs" />
+    <Compile Include="API\IModule.cs" />
+    <Compile Include="API\InputCommand.cs" />
+    <Compile Include="API\InputCommandDef.cs" />
+    <Compile Include="API\ParameterAttribute.cs" />
+    <Compile Include="API\ParameterDef.cs" />
+    <Compile Include="API\AutoCompleteValuesFunctionContext.cs" />
+    <Compile Include="API\ValidationFunctionContext.cs" />
+    <Compile Include="Component\ConfirmationAlert.cs" />
+    <Compile Include="Component\IReadOnlyList.cs" />
+    <Compile Include="Component\UserAssemblyRepository.cs" />
+    <Compile Include="DefaultCommandActivatorContainer.cs" />
+    <Compile Include="Host\WindowsForms\CopyEventArgs.cs" />
+    <Compile Include="API\ICommandActivatorContainer.cs" />
+    <Compile Include="Modules\Core\Commands\ClearCommand.cs" />
+    <Compile Include="Modules\Core\Commands\OpenUserAssembliesDirectoryCommand.cs" />
+    <Compile Include="Modules\Core\Module.cs" />
+    <Compile Include="Modules\Core\Commands\HelpCommand.cs" />
+    <Compile Include="Modules\Core\Commands\InstallModuleCommand.cs" />
+    <Compile Include="Modules\Core\Commands\ListAssemblyModulesCommand.cs" />
+    <Compile Include="Modules\Core\Commands\ListCommandsCommand.cs" />
+    <Compile Include="Modules\Core\Commands\ListModulesCommand.cs" />
+    <Compile Include="Component\Modules\ModuleCollection.cs" />
+    <Compile Include="Component\Modules\ModuleInstaller.cs" />
+    <Compile Include="Component\Modules\ModuleUninstaller.cs" />
+    <Compile Include="Component\Modules\ModuleValidator.cs" />
+    <Compile Include="Component\Modules\TableRecords.cs" />
+    <Compile Include="Modules\Core\Commands\UninstallModuleCommand.cs" />
+    <Compile Include="Component\CommandValidator.cs" />
+    <Compile Include="Component\AssemblyUtil.cs" />
+    <Compile Include="Component\Writers\IBufferedWriter.cs" />
+    <Compile Include="Component\Writers\InputCommandOutputCollection.cs" />
+    <Compile Include="Component\Writers\IObjectWriter.cs" />
+    <Compile Include="Component\Writers\IWriterCollection.cs" />
+    <Compile Include="Component\Writers\NullObjectWriter.cs" />
+    <Compile Include="Component\Writers\NullWriter.cs" />
+    <Compile Include="Component\Writers\ObjectWriter.cs" />
+    <Compile Include="Component\Writers\Table.cs" />
+    <Compile Include="Component\Writers\TableColumn.cs" />
+    <Compile Include="Component\Writers\TableRow.cs" />
+    <Compile Include="Component\Writers\TableCell.cs" />
+    <Compile Include="Host\WindowsForms\AutoComplete\AutoCompleteController.cs" />
+    <Compile Include="Host\WindowsForms\AutoComplete\AutoCompleteMessageFilter.cs" />
+    <Compile Include="Host\WindowsForms\AutoComplete\frmAutoComplete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Host\WindowsForms\AutoComplete\frmAutoComplete.Designer.cs">
+      <DependentUpon>frmAutoComplete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Component\CommandCollection.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\InputCommandDescriptorExtension.cs" />
+    <Compile Include="Host\WindowsForms\AutoComplete\AutoCompleteProvider.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Host\WindowsForms\AutoComplete\Win32.cs" />
+    <Compile Include="Host\WindowsForms\BufferedRtfWriter.cs" />
+    <Compile Include="Host\WindowsForms\CommandExecutionPrompt.cs" />
+    <Compile Include="Host\WindowsForms\HostInterface.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Host\IHostInterface.cs" />
+    <Compile Include="Component\Input.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\AutoCompleteInputEventsFilter.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\ExecutionBlockEventsFilter.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\CommandExecutionPromptEventsFilter.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\IInputEventsFilter.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\InputEventsFilterArgs.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\InputEventsFilterCollection.cs" />
+    <Compile Include="Component\InputNode.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\BaseInputEventsFilter.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\InputEventsFilterHandlerArgs.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\InputEvents.cs" />
+    <Compile Include="Host\WindowsForms\InputEventsFilter\StandardInputEventsFilter.cs" />
+    <Compile Include="Component\Writers\HostWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Writers\HostWriterCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Component\Writers\HostWriterContext.cs" />
+    <Compile Include="Component\Writers\InterceptWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InvalidCommandException.cs" />
+    <Compile Include="Processing\CommandInvoker.cs" />
+    <Compile Include="Processing\CommandInvokerResponse.cs" />
+    <Compile Include="Processing\CommandActivator.cs" />
+    <Compile Include="Processing\CommandValidator.cs" />
+    <Compile Include="Processing\CommandValidatorError.cs" />
+    <Compile Include="Processing\CommandParameterAnalysis.cs" />
+    <Compile Include="Processing\CommandResolver.cs" />
+    <Compile Include="Processing\CommandResolverNode.cs" />
+    <Compile Include="Processing\Util.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Host\WindowsForms\HostRtb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="Host\WindowsForms\AutoComplete\frmAutoComplete.resx">
+      <DependentUpon>frmAutoComplete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

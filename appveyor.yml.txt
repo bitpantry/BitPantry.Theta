@@ -1,0 +1,21 @@
+version: 1.1.0.{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+environment:
+  version_major: 1
+  version_minor: 1
+  version_revision: 0
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  verbosity: minimal
+deploy:
+- provider: Environment
+  name: BitPantry NuGet
+  on:
+    appveyor_repo_tag: true
