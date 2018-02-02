@@ -18,15 +18,15 @@ namespace BitPantry.Theta.Modules.Packages.Commands
         public override void Invoke(CommandInvocationContext context)
         {
             if (PackageLogic.Instance.PackagesCollection.Packages
-                .Exists(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase)))
+                .Exists(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase)))
             {
-                base.Out.Warning.WriteLine(string.Format("The package name '{0}' is already being used by another package", this.Name));
+                base.Out.Warning.WriteLine(string.Format("The package name '{0}' is already being used by another package", Name));
             }
             else
             {
                 var newPkg = new Packages.Package()
                 {
-                    Name = this.Name
+                    Name = Name
                 };
 
                 PackageLogic.Instance.PackagesCollection.Packages.Add(newPkg);

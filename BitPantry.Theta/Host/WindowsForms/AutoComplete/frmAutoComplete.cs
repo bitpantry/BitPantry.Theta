@@ -18,60 +18,60 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
 
         public string SelectedValue { get; set; }
 
-        public int OptionsBoxHeight { get { return this.lstAutoCompleteOptions.Height; } }
-        public int OptionsBoxWidth { get { return this.lstAutoCompleteOptions.Width; } }
+        public int OptionsBoxHeight { get { return lstAutoCompleteOptions.Height; } }
+        public int OptionsBoxWidth { get { return lstAutoCompleteOptions.Width; } }
 
         public frmAutoComplete()
         {
             InitializeComponent();
 
-            this.SelectedValue = null;
+            SelectedValue = null;
             base.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 
-            this.lstAutoCompleteOptions.MouseClick += lstAutoCompleteOptions_MouseClick;
-            this.lstAutoCompleteOptions.MouseDoubleClick += lstAutoCompleteOptions_MouseDoubleClick;
+            lstAutoCompleteOptions.MouseClick += lstAutoCompleteOptions_MouseClick;
+            lstAutoCompleteOptions.MouseDoubleClick += lstAutoCompleteOptions_MouseDoubleClick;
 
-            this.lstAutoCompleteOptions.ForeColor = Constants.COLOR_STANDARD_FOREGROUND;
-            this.lstAutoCompleteOptions.BackColor = Constants.COLOR_BACKGROUND;
-            this.lstAutoCompleteOptions.Font = Constants.FONT_STANDARD;
+            lstAutoCompleteOptions.ForeColor = Constants.COLOR_STANDARD_FOREGROUND;
+            lstAutoCompleteOptions.BackColor = Constants.COLOR_BACKGROUND;
+            lstAutoCompleteOptions.Font = Constants.FONT_STANDARD;
 
-            this.lstAutoCompleteOptions.BorderStyle = BorderStyle.FixedSingle;
+            lstAutoCompleteOptions.BorderStyle = BorderStyle.FixedSingle;
             
         }
 
         public void SetAutoCompleteOptions(List<string> options)
         {
-            this.lstAutoCompleteOptions.Items.Clear();
+            lstAutoCompleteOptions.Items.Clear();
 
             // load options
 
             foreach (var value in options)
-                this.lstAutoCompleteOptions.Items.Add(value);
+                lstAutoCompleteOptions.Items.Add(value);
 
             // set size
 
             string longestValue = options.Select(o => o).OrderByDescending(o => o.Length).First();
-            var size = TextRenderer.MeasureText(longestValue, this.lstAutoCompleteOptions.Font);
+            var size = TextRenderer.MeasureText(longestValue, lstAutoCompleteOptions.Font);
 
-            this.lstAutoCompleteOptions.Width = size.Width + 20;
-            this.FixSize();
+            lstAutoCompleteOptions.Width = size.Width + 20;
+            FixSize();
 
             // initialize variables
 
-            this.SelectedValue = null;
-            this.lstAutoCompleteOptions.SelectedIndex = 0;
+            SelectedValue = null;
+            lstAutoCompleteOptions.SelectedIndex = 0;
         }
 
         internal void FilterAutoCompleteOptions(string byValue)
         {
             if (byValue != null)
             {
-                for (int i = 0; i < this.lstAutoCompleteOptions.Items.Count; i++)
+                for (int i = 0; i < lstAutoCompleteOptions.Items.Count; i++)
                 {
-                    if (((string)this.lstAutoCompleteOptions.Items[i]).StartsWith(byValue, StringComparison.OrdinalIgnoreCase))
+                    if (((string)lstAutoCompleteOptions.Items[i]).StartsWith(byValue, StringComparison.OrdinalIgnoreCase))
                     {
-                        this.lstAutoCompleteOptions.SelectedIndex = i;
-                        this.lstAutoCompleteOptions.TopIndex = i;
+                        lstAutoCompleteOptions.SelectedIndex = i;
+                        lstAutoCompleteOptions.TopIndex = i;
                         break;
                     }
                 }
@@ -80,22 +80,22 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
 
         void lstAutoCompleteOptions_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (this.SelectItemAtCursorPosition())
-                this.SubmitCurrentSelection();
+            if (SelectItemAtCursorPosition())
+                SubmitCurrentSelection();
         }
 
         void lstAutoCompleteOptions_MouseClick(object sender, MouseEventArgs e)
         {
-            this.SelectItemAtCursorPosition();
+            SelectItemAtCursorPosition();
         }
 
         private bool SelectItemAtCursorPosition()
         {
-            var pointToScreen = this.lstAutoCompleteOptions.PointToClient(Cursor.Position);
-            int index = this.lstAutoCompleteOptions.IndexFromPoint(pointToScreen);
-            if (index > -1 && index < this.lstAutoCompleteOptions.Items.Count)
+            var pointToScreen = lstAutoCompleteOptions.PointToClient(Cursor.Position);
+            int index = lstAutoCompleteOptions.IndexFromPoint(pointToScreen);
+            if (index > -1 && index < lstAutoCompleteOptions.Items.Count)
             {
-                this.lstAutoCompleteOptions.SelectedIndex = index;
+                lstAutoCompleteOptions.SelectedIndex = index;
                 return true;
             }
 
@@ -105,36 +105,36 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         // have to do this in order to resize form, if not, there is always a little form visible behind the list control
         protected override void OnShown(EventArgs e)
         {
-            this.FixSize();
+            FixSize();
         }
 
         private void FixSize()
         {
-            this.SuspendLayout();
-            this.lstAutoCompleteOptions.Location = new Point(0, 0);
-            this.ClientSize = new Size(this.lstAutoCompleteOptions.Width, this.lstAutoCompleteOptions.Height);
-            this.ResumeLayout();
+            SuspendLayout();
+            lstAutoCompleteOptions.Location = new Point(0, 0);
+            ClientSize = new Size(lstAutoCompleteOptions.Width, lstAutoCompleteOptions.Height);
+            ResumeLayout();
         }
 
         public void Cancel()
         {
-            this.SelectedValue = null;
+            SelectedValue = null;
             base.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Hide();
-            this.lstAutoCompleteOptions.Items.Clear();
+            Hide();
+            lstAutoCompleteOptions.Items.Clear();
         }
 
         public void SubmitCurrentSelection()
         {
-            this.SelectedValue = (string)this.lstAutoCompleteOptions.SelectedItem;
+            SelectedValue = (string)lstAutoCompleteOptions.SelectedItem;
             base.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.Hide();
+            Hide();
         }
 
         protected override void OnVisibleChanged(EventArgs e)
         {
-            if (!this.Visible && this.AutoCompleteComplete != null)
-                this.AutoCompleteComplete(this.DialogResult);
+            if (!Visible && AutoCompleteComplete != null)
+                AutoCompleteComplete(DialogResult);
 
             base.OnVisibleChanged(e);
         }
@@ -154,21 +154,21 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
 
         internal void SelectNextOption()
         {
-            if (this.lstAutoCompleteOptions.Items.Count > this.lstAutoCompleteOptions.SelectedIndex + 1)
-                this.lstAutoCompleteOptions.SelectedIndex = this.lstAutoCompleteOptions.SelectedIndex + 1;
+            if (lstAutoCompleteOptions.Items.Count > lstAutoCompleteOptions.SelectedIndex + 1)
+                lstAutoCompleteOptions.SelectedIndex = lstAutoCompleteOptions.SelectedIndex + 1;
         }
 
         internal void SelectPreviousOption()
         {
-            if (this.lstAutoCompleteOptions.SelectedIndex - 1 > -1)
-                this.lstAutoCompleteOptions.SelectedIndex = this.lstAutoCompleteOptions.SelectedIndex - 1;
+            if (lstAutoCompleteOptions.SelectedIndex - 1 > -1)
+                lstAutoCompleteOptions.SelectedIndex = lstAutoCompleteOptions.SelectedIndex - 1;
         }
 
         // hides the form instead of realling closing it
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            this.Hide();
+            Hide();
             e.Cancel = true;
             base.OnClosing(e);
         }

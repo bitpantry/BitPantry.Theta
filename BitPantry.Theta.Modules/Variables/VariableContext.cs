@@ -22,7 +22,7 @@ namespace BitPantry.Theta.Modules.Variables
 
         public VariableContext()
         {
-            this.Variables = new List<VariableContextVariable>();
+            Variables = new List<VariableContextVariable>();
         }
     }
 }

@@ -25,8 +25,8 @@ namespace BitPantry.Theta.Utility.Console
         {
             InitializeComponent();
 
-            this._modules = modules ?? new Type[] { };
-            this._commands = commands ?? new Type[] { };
+            _modules = modules ?? new Type[] { };
+            _commands = commands ?? new Type[] { };
 
             var host = new HostInterface(HostInterfaceMode.Output);
 
@@ -34,43 +34,43 @@ namespace BitPantry.Theta.Utility.Console
                 host.SetCommandActivatorContainer(container);
 
             host.Dock = DockStyle.Fill;
-            this.Controls.Add(host);
+            Controls.Add(host);
 
-            this.Host = host;
+            Host = host;
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
 
-            if (this.InstallTypes())
+            if (InstallTypes())
             {
-                this.Host.Clear();
-                this.Host.Mode = HostInterfaceMode.Interactive;
+                Host.Clear();
+                Host.Mode = HostInterfaceMode.Interactive;
             }
             else
             {
-                this.Host.Out.Error.WriteLine("The utility console has initialized with errors.");
-                this.Host.Mode = HostInterfaceMode.Interactive;
+                Host.Out.Error.WriteLine("The utility console has initialized with errors.");
+                Host.Mode = HostInterfaceMode.Interactive;
             }
 
         }
 
         private bool InstallTypes()
         {
-            foreach (var module in this._modules)
+            foreach (var module in _modules)
             {
-                if (!this.Host.Modules.Install(module, this.Host.Out))
+                if (!Host.Modules.Install(module, Host.Out))
                     return false;
             }
 
             try
             {
-                this.Host.Commands.Register(this._commands);                    
+                Host.Commands.Register(_commands);                    
             }
             catch (Exception ex)
             {
-                this.Host.Out.Error.WriteLine(string.Format("Commands could not be registered :: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace));
+                Host.Out.Error.WriteLine(string.Format("Commands could not be registered :: {0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace));
                 return false;
             }
 

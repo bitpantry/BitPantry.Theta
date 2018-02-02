@@ -24,7 +24,7 @@ namespace BitPantry.Theta.API
         /// <summary>
         /// The list of aliases
         /// </summary>
-        public IEnumerable<string> Aliases { get { return this._aliases.AsReadOnly(); } }
+        public IEnumerable<string> Aliases { get { return _aliases.AsReadOnly(); } }
 
         /// <summary>
         /// Whether or not the named parameter is required
@@ -67,7 +67,7 @@ namespace BitPantry.Theta.API
 
         internal void AddAliases(IEnumerable<string> aliases)
         {
-            this._aliases.AddRange(aliases);
+            _aliases.AddRange(aliases);
         }
 
         #endregion

@@ -18,14 +18,14 @@ namespace BitPantry.Theta.Component.Writers
         public HostWriter(Action<string, HostWriterContext> onWriteAction, System.Drawing.Color foreColor) : this(onWriteAction, foreColor, System.Drawing.Color.Empty) { }
         public HostWriter(Action<string, HostWriterContext> onWriteAction, System.Drawing.Color foreColor, System.Drawing.Color highlightColor)
         {
-            this._onWriteAction = onWriteAction;
-            this._foreColor = foreColor;
-            this._highlightColor = highlightColor;
+            _onWriteAction = onWriteAction;
+            _foreColor = foreColor;
+            _highlightColor = highlightColor;
         }
 
         protected override void OnWrite(string str)
         {
-            lock (this._locker)
+            lock (_locker)
             {
                 // split multiline output string
 
@@ -46,12 +46,12 @@ namespace BitPantry.Theta.Component.Writers
 
                 var context = new HostWriterContext()
                 {
-                    ForeColor = this._foreColor,
-                    HighlightColor = this._highlightColor
+                    ForeColor = _foreColor,
+                    HighlightColor = _highlightColor
                 };
 
                 foreach (var ln in lines)
-                    this._onWriteAction(ln, context);
+                    _onWriteAction(ln, context);
 
             }
         }

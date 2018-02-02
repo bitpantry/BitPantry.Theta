@@ -33,7 +33,7 @@ namespace BitPantry.Theta.Component.Writers
             base.Write(buffer, index, count);
             char[] buffer2 = new char[count]; //Ensures large buffers are not a problem
             for (int i = 0; i < count; i++) buffer2[i] = buffer[index + i];
-            WriteGeneric<string>(this.CharArrToString(buffer2));
+            WriteGeneric<string>(CharArrToString(buffer2));
         }
 
         public override void WriteLine(char[] buffer, int index, int count)
@@ -41,7 +41,7 @@ namespace BitPantry.Theta.Component.Writers
             base.Write(buffer, index, count);
             char[] buffer2 = new char[count]; //Ensures large buffers are not a problem
             for (int i = 0; i < count; i++) buffer2[i] = buffer[index + i];
-            WriteLineGeneric<string>(this.CharArrToString(buffer2));
+            WriteLineGeneric<string>(CharArrToString(buffer2));
         }
 
         private string CharArrToString(char[] arr)

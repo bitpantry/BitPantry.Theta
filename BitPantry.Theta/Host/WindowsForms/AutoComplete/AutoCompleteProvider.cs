@@ -21,25 +21,25 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
 
         public AutoCompleteProvider(IHostInterface hostInterface) 
         {
-            this._hostInterface = hostInterface;
+            _hostInterface = hostInterface;
         }
 
         public List<string> GetOptions(Input input, InputNode currentNode)
         {
-            CommandResolver resolver = new CommandResolver(input, this._hostInterface.Commands);
+            CommandResolver resolver = new CommandResolver(input, _hostInterface.Commands);
 
             if (string.IsNullOrWhiteSpace(input.ToString()) || currentNode.ElementType == InputNodeType.Command) // node is in leading white space or at very beginning of command or is the command node
-                return this.GetCommandsAutoComplete(input, currentNode);
+                return GetCommandsAutoComplete(input, currentNode);
             else if (resolver.CommandDefinition != null && currentNode.ElementType == InputNodeType.NamedParameter)
-                return this.GetNamedParameterAutoComplete(resolver, currentNode);
+                return GetNamedParameterAutoComplete(resolver, currentNode);
             else if (resolver.CommandDefinition != null && currentNode.ElementType == InputNodeType.NamedParameterValue)
-                return this.GetParameterAutoComplete(resolver, currentNode);
+                return GetParameterAutoComplete(resolver, currentNode);
             else if (resolver.CommandDefinition != null && currentNode.ElementType == InputNodeType.Empty)
-                return this.GetParameterAutoComplete(resolver, currentNode);
+                return GetParameterAutoComplete(resolver, currentNode);
             else if (resolver.CommandDefinition != null && currentNode.ElementType == InputNodeType.OrdinalParameterValue)
-                return this.GetParameterAutoComplete(resolver, currentNode);
+                return GetParameterAutoComplete(resolver, currentNode);
             else if (resolver.CommandDefinition != null && currentNode.ElementType == InputNodeType.Switch)
-                return this.GetSwitchAutoComplete(resolver, currentNode);
+                return GetSwitchAutoComplete(resolver, currentNode);
 
             return null; 
         }
@@ -72,7 +72,7 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
             try
             {
                 if (validationFunctionName != null)
-                    return Util.GetParameterAutoCompleteValues(resolver, def, this._hostInterface)
+                    return Util.GetParameterAutoCompleteValues(resolver, def, _hostInterface)
                     .Where(v => v.StartsWith(currentNode.Value, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
@@ -117,17 +117,17 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         private List<string> GetCommandsAutoComplete(Input input, InputNode node)
         {
             if (node == null)
-                return this.GetAvailableCommands();
+                return GetAvailableCommands();
             else
-                return this.GetAvailableCommands().Where(c => c.StartsWith(node.Value, StringComparison.OrdinalIgnoreCase)).ToList();
+                return GetAvailableCommands().Where(c => c.StartsWith(node.Value, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         private List<string> GetAvailableCommands()
         {
             List<string> options = new List<string>();
 
-            options.AddRange(this._hostInterface.Commands.Select(c => c.CommandName).ToList());
-            options.AddRange(this._hostInterface.Commands.SelectMany(d => d.Aliases).ToList());
+            options.AddRange(_hostInterface.Commands.Select(c => c.CommandName).ToList());
+            options.AddRange(_hostInterface.Commands.SelectMany(d => d.Aliases).ToList());
 
             return options.OrderBy(o => o).ToList();
         }

@@ -14,8 +14,8 @@ namespace BitPantry.Theta.Component.Writers
 
         internal ObjectWriter(IWriterCollection writers, IBufferedWriter buffer)
         {
-            this._writers = writers;
-            this._buffer = buffer;
+            _writers = writers;
+            _buffer = buffer;
         }
 
         public void Write(object obj)
@@ -24,13 +24,13 @@ namespace BitPantry.Theta.Component.Writers
             {
                 var table = new Table((System.Collections.IList)obj);
                 if (table.TableWidth < 200)
-                    table.WriteTable(this._buffer);
+                    table.WriteTable(_buffer);
                 else
-                    this.JSON(obj);
+                    JSON(obj);
             }
             else
             {
-                this.JSON(obj);
+                JSON(obj);
             }
         }
 
@@ -38,7 +38,7 @@ namespace BitPantry.Theta.Component.Writers
         {
             try
             {
-                this._buffer.Out.Standard.WriteLine();
+                _buffer.Out.Standard.WriteLine();
 
                 Queue<string> lines = new Queue<string>(JsonConvert.SerializeObject(obj, Formatting.Indented)
                     .Split(new string[] { Environment.NewLine }, StringSplitOptions.None));
@@ -47,16 +47,16 @@ namespace BitPantry.Theta.Component.Writers
 
                 foreach (var line in lines)
                 {
-                    this._buffer.Out.Standard.Write(Constants.TAB);
-                    this._buffer.Out.Accent1.WriteLine(string.Format(" {0} ", line.PadRight(maxWidth)));
+                    _buffer.Out.Standard.Write(Constants.TAB);
+                    _buffer.Out.Accent1.WriteLine(string.Format(" {0} ", line.PadRight(maxWidth)));
                 }
 
-                this._buffer.Out.Standard.WriteLine();
-                this._buffer.Flush();
+                _buffer.Out.Standard.WriteLine();
+                _buffer.Flush();
             }
             finally
             {
-                this._buffer.Clear();
+                _buffer.Clear();
             }
         }
 
@@ -65,11 +65,11 @@ namespace BitPantry.Theta.Component.Writers
             try
             {
                 var table = new Table(data);
-                table.WriteTable(this._buffer);
+                table.WriteTable(_buffer);
             }
             finally
             {
-                this._buffer.Clear();
+                _buffer.Clear();
             }
         }
 

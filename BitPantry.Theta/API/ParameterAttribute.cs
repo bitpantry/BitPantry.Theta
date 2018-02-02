@@ -59,13 +59,13 @@ namespace BitPantry.Theta.API
         public Parameter(string parameterName=null, bool isRequired=true, int ordinalPosition=-1, string parameterSet=null
             , string autoCompleteValuesFunction=null, bool useAutoCompleteForValidation=false, string validationFunction=null)
         {
-            this.ParameterName = parameterName;
-            this.IsRequired = isRequired;
-            this.OrdinalPosition = ordinalPosition;
-            this.ParameterSet = parameterSet;
-            this.AutoCompleteValuesFunction = autoCompleteValuesFunction;
-            this.UseAutoCompleteForValidation = useAutoCompleteForValidation;
-            this.ValidationFunction = validationFunction;
+            ParameterName = parameterName;
+            IsRequired = isRequired;
+            OrdinalPosition = ordinalPosition;
+            ParameterSet = parameterSet;
+            AutoCompleteValuesFunction = autoCompleteValuesFunction;
+            UseAutoCompleteForValidation = useAutoCompleteForValidation;
+            ValidationFunction = validationFunction;
         }
 
         

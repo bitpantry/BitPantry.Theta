@@ -15,8 +15,8 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public BaseInputEventsFilter(Action<KeyInputFilterResult> handleResultAction)
         {
-            this.IsEngaged = true;
-            this._handleResultAction = handleResultAction;
+            IsEngaged = true;
+            _handleResultAction = handleResultAction;
         }
 
         public void HandleKeyDown(InputEventsFilterArgs args, KeyEventArgs e)
@@ -39,9 +39,9 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
                     if (args.InputPosition > 0)
                     {
                         if (e.Modifiers == Keys.Shift)
-                            this._handleResultAction(KeyInputFilterResult.Input_SelectToStart);
+                            _handleResultAction(KeyInputFilterResult.Input_SelectToStart);
                         else
-                            this._handleResultAction(KeyInputFilterResult.Input_MoveToStart);
+                            _handleResultAction(KeyInputFilterResult.Input_MoveToStart);
                     }
                     e.SuppressKeyPress = true;
                     break;
@@ -78,8 +78,8 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         }
 
-        public void Engage() { this.IsEngaged = true; }
-        public void Disengage() { this.IsEngaged = false; }
+        public void Engage() { IsEngaged = true; }
+        public void Disengage() { IsEngaged = false; }
 
 
     }

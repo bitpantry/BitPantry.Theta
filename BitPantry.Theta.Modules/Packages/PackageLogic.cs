@@ -24,14 +24,14 @@ namespace BitPantry.Theta.Modules.Packages
         {
             get
             {
-                return this.PackagesCollection.Packages
-                    .Where(e => this._loadedPackageNames.Contains(e.Name, StringComparer.OrdinalIgnoreCase)).ToList();
+                return PackagesCollection.Packages
+                    .Where(e => _loadedPackageNames.Contains(e.Name, StringComparer.OrdinalIgnoreCase)).ToList();
             }
         }
 
         public List<Package> UnloadedPackages
         {
-            get { return this.PackagesCollection.Packages.Where(e => !this.LoadedPackages.Contains(e)).ToList(); }
+            get { return PackagesCollection.Packages.Where(e => !LoadedPackages.Contains(e)).ToList(); }
         }
 
         #region INITIALIZATION LOGIC
@@ -49,7 +49,7 @@ namespace BitPantry.Theta.Modules.Packages
 
         private PackageLogic() 
         {
-            this.DiscardChanges();
+            DiscardChanges();
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace BitPantry.Theta.Modules.Packages
         {
             XmlSerializer serializer = new XmlSerializer(typeof(PackageCollection));
             using (FileStream stream = File.Create(FILE_PATH_PACKAGES))
-                serializer.Serialize(stream, this.PackagesCollection);
+                serializer.Serialize(stream, PackagesCollection);
         }
 
         public void DiscardChanges()
@@ -67,26 +67,26 @@ namespace BitPantry.Theta.Modules.Packages
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(PackageCollection));
                 using (FileStream stream = File.OpenRead(FILE_PATH_PACKAGES))
-                    this.PackagesCollection = (PackageCollection)serializer.Deserialize(stream);
+                    PackagesCollection = (PackageCollection)serializer.Deserialize(stream);
             }
             else
             {
-                this.PackagesCollection = new PackageCollection();
-                this.Save();
+                PackagesCollection = new PackageCollection();
+                Save();
             }
         }
 
         public void Remove(Package package, ModuleCollection modules, IWriterCollection writers)
         {
-            if (this.LoadedPackages.Contains(package))
-                this.Unload(package, modules, writers);
+            if (LoadedPackages.Contains(package))
+                Unload(package, modules, writers);
 
-            this.PackagesCollection.Packages.Remove(package);
+            PackagesCollection.Packages.Remove(package);
         }
 
         public void Unload(Package package, ModuleCollection modules, IWriterCollection writers)
         {
-            if (!this.LoadedPackages.Contains(package))
+            if (!LoadedPackages.Contains(package))
                 throw new Exception(string.Format("The package {0} is not loaded", package.Name));
 
             Dictionary<string, System.Reflection.Assembly> asmDic = new Dictionary<string, System.Reflection.Assembly>();
@@ -115,7 +115,7 @@ namespace BitPantry.Theta.Modules.Packages
                 }
             }
 
-            this._loadedPackageNames.Remove(package.Name);
+            _loadedPackageNames.Remove(package.Name);
         }
 
         public void Load(Package package, ModuleCollection modules, IWriterCollection writers)
@@ -163,7 +163,7 @@ namespace BitPantry.Theta.Modules.Packages
                 writers.Warning.WriteLine("The package has been loaded but no modules were installed - the package does not define any modules.");
             }
 
-            this._loadedPackageNames.Add(package.Name);
+            _loadedPackageNames.Add(package.Name);
 
             if (isErrors)
                 writers.Warning.WriteLine("The package has been loaded with errors.");

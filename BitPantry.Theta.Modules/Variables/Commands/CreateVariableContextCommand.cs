@@ -23,8 +23,8 @@ namespace BitPantry.Theta.Modules.Variables.Commands
         {
             var ctx = new VariableContext()
             {
-                Name = this.Name,
-                Description = this.Description
+                Name = Name,
+                Description = Description
             };
 
             VariableContextLogic.Instance.VariableContextCollection.Contexts.Add(ctx);

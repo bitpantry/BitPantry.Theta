@@ -18,7 +18,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
         public override void Invoke(CommandInvocationContext context)
         {
             PackageLogic.Instance.Load(PackageLogic.Instance.PackagesCollection.Packages
-                .FirstOrDefault(e => e.Name.Equals(this.Package, StringComparison.OrdinalIgnoreCase)), base.Host.Modules, base.Out);
+                .FirstOrDefault(e => e.Name.Equals(Package, StringComparison.OrdinalIgnoreCase)), base.Host.Modules, base.Out);
         }
 
         public void GetPackageNamesAutoComplete(AutoCompleteValuesFunctionContext context)

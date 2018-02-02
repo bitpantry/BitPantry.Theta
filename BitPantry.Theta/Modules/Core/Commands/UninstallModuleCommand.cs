@@ -18,10 +18,10 @@ namespace BitPantry.Theta.Modules.Core.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            if (base.Confirm(string.Format("The module '{0}' will be uninstalled", this.ModuleName)))
+            if (base.Confirm(string.Format("The module '{0}' will be uninstalled", ModuleName)))
             {
-                if (base.Host.Modules.Uninstall(this.ModuleName, base.Out))
-                    base.Out.Standard.WriteLine(string.Format("Module '{0}' has been installed", this.ModuleName));
+                if (base.Host.Modules.Uninstall(ModuleName, base.Out))
+                    base.Out.Standard.WriteLine(string.Format("Module '{0}' has been installed", ModuleName));
             }
         }
 

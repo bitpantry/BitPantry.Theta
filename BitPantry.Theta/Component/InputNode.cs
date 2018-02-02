@@ -25,7 +25,7 @@ namespace BitPantry.Theta.Component
         };
 
         public string Element { get; private set; }
-        public string Value { get { return this.Element.Trim().Trim('"').TrimStart(Constants.ELEMENT_PREFIXES); } }
+        public string Value { get { return Element.Trim().Trim('"').TrimStart(Constants.ELEMENT_PREFIXES); } }
         public InputNodeType ElementType { get; private set; }
         public int Index { get; set; }
         public int StartPosition { get; private set; }
@@ -34,47 +34,47 @@ namespace BitPantry.Theta.Component
 
         public InputNode(string element, int index, int locationStart, int locationEnd, InputNode previousNode)
         {
-            this.Element = element;
-            this.Index = index;
-            this.StartPosition = locationStart;
-            this.EndPosition = locationEnd;
+            Element = element;
+            Index = index;
+            StartPosition = locationStart;
+            EndPosition = locationEnd;
 
             if (element.Trim().StartsWith(Constants.ELEMENT_PREFIX_NAMED_PARAMETER_SWITCH.ToString()))
             {
-                this.ElementType = InputNodeType.NamedParameter;
+                ElementType = InputNodeType.NamedParameter;
             }
             else if (element.Trim().StartsWith(Constants.ELEMENT_PREFIX_BOOLEAN_SWITCH.ToString()))
             {
-                this.ElementType = InputNodeType.Switch;
+                ElementType = InputNodeType.Switch;
             }
             else // standard string input (concurrent or quoted), may be a parameter value or an ordinal parameter
             {
-                if (!string.IsNullOrWhiteSpace(this.Element) 
+                if (!string.IsNullOrWhiteSpace(Element) 
                     && previousNode != null 
                     && previousNode.ElementType == InputNodeType.NamedParameter) // string value appearing right after named parameter switch
                 {
-                    this.ElementType = InputNodeType.NamedParameterValue;
-                    this.IsPairedWith = previousNode;
+                    ElementType = InputNodeType.NamedParameterValue;
+                    IsPairedWith = previousNode;
                     previousNode.IsPairedWith = this;
                 }
                 else if (previousNode == null) // string value appearing as the first node
                 {
-                    this.ElementType = InputNodeType.Command;
+                    ElementType = InputNodeType.Command;
                 }
-                else if (!string.IsNullOrWhiteSpace(this.Element))
+                else if (!string.IsNullOrWhiteSpace(Element))
                 {
-                    this.ElementType = InputNodeType.OrdinalParameterValue;
+                    ElementType = InputNodeType.OrdinalParameterValue;
                 }
                 else // empty string
                 {
-                    this.ElementType = InputNodeType.Empty;
+                    ElementType = InputNodeType.Empty;
                 }
             }
         }
 
         public override string ToString()
         {
-            return this.Element;
+            return Element;
         }
 
         

@@ -19,7 +19,7 @@ namespace BitPantry.Theta.Modules.Packages
 
         public Package()
         {
-            this.Modules = new List<PackageModule>();
+            Modules = new List<PackageModule>();
         }
     }
 }

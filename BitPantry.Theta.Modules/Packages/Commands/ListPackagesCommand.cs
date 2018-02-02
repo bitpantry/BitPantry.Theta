@@ -30,7 +30,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
                 {
                     bool isLoaded = PackageLogic.Instance.LoadedPackages.Contains(pkg);
                     bool add = true;
-                    if (this.LoadedOnly.IsPresent && !isLoaded)
+                    if (LoadedOnly.IsPresent && !isLoaded)
                         add = false;
 
                     if (add)
@@ -38,8 +38,8 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
                 }
 
-                if (!string.IsNullOrWhiteSpace(this.Filter))
-                    packagesToList = packagesToList.Where(e => e.Name.IndexOf(this.Filter, StringComparison.OrdinalIgnoreCase) > -1).ToList();
+                if (!string.IsNullOrWhiteSpace(Filter))
+                    packagesToList = packagesToList.Where(e => e.Name.IndexOf(Filter, StringComparison.OrdinalIgnoreCase) > -1).ToList();
 
                 base.Out.Object.Write(TableRecords.CreatePackageRecordList(packagesToList.ToArray()));
 

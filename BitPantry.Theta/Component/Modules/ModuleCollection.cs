@@ -20,46 +20,46 @@ namespace BitPantry.Theta.Component.Modules
 
         public IModule this[int index]
         {
-            get { return this._modules[index]; }
+            get { return _modules[index]; }
         }
 
         public int Count
         {
-            get { return this._modules.Count; }
+            get { return _modules.Count; }
         }
 
         public IEnumerator<IModule> GetEnumerator()
         {
-            return this._modules.GetEnumerator();
+            return _modules.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this._modules.GetEnumerator();
+            return _modules.GetEnumerator();
         }
 
         #endregion
 
         internal ModuleCollection(CommandCollection commands)
         {
-            this._modules = new List<IModule>();
-            this._commands = commands;
+            _modules = new List<IModule>();
+            _commands = commands;
         }
         
         public bool Install(Type moduleType, IWriterCollection writers)
         {
-            return new ModuleInstaller(this._commands, this._modules, writers).Install(moduleType);
+            return new ModuleInstaller(_commands, _modules, writers).Install(moduleType);
         }
 
         public bool Uninstall(string moduleName, IWriterCollection writers)
         {
-            return new ModuleUninstaller(this._commands, this._modules, writers)
+            return new ModuleUninstaller(_commands, _modules, writers)
                 .Uninstall(this.FirstOrDefault(m => m.Name.Equals(moduleName, StringComparison.OrdinalIgnoreCase)).GetType());
         }
 
         public bool Uninstall(Type moduleType, IWriterCollection writers)
         {
-            return new ModuleUninstaller(this._commands, this._modules, writers).Uninstall(moduleType);
+            return new ModuleUninstaller(_commands, _modules, writers).Uninstall(moduleType);
         }
 
 

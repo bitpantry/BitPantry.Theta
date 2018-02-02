@@ -32,15 +32,15 @@ namespace BitPantry.Theta.Processing
 
         public void SetValue(InputCommand cmd)
         {
-            if (!this.IsComplete)
+            if (!IsComplete)
                 throw new InvalidOperationException("Command property cannot be set from incomplete command resolver node");
 
-            if (this.Type == CRNodeType.NamedParameter)
+            if (Type == CRNodeType.NamedParameter)
                 ParseAndSetPropertyValue(cmd, InputNode.IsPairedWith.Value);
-            else if (this.Type == CRNodeType.OrdinalParameter)
+            else if (Type == CRNodeType.OrdinalParameter)
                 ParseAndSetPropertyValue(cmd, InputNode.Value);
             else // switch
-                this.Switch.PropertyInfo.SetValue(cmd, new SwitchParameter() { IsPresent = true });
+                Switch.PropertyInfo.SetValue(cmd, new SwitchParameter() { IsPresent = true });
         }
 
         private void ParseAndSetPropertyValue(InputCommand cmd, string value)

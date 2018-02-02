@@ -20,32 +20,32 @@ namespace BitPantry.Theta.Host.WindowsForms
 
         public CommandExecutionPrompt(HostInterface hostInterface)
         {
-            this._interface = hostInterface;
-            this._interface.InputFilters.RegisterSubscription(this.HandleKeyInputResultAction);
+            _interface = hostInterface;
+            _interface.InputFilters.RegisterSubscription(HandleKeyInputResultAction);
 
-            this.IsActive = false;
+            IsActive = false;
         }
 
         public string Prompt(string prompt)
         {
-            this.ActivationGate();
+            ActivationGate();
 
             try
             {
-                this._interface.WritePrompt(prompt);
+                _interface.WritePrompt(prompt);
 
-                this._interface.InputFilters.SetFilterMode(FilterMode.CommandExecutionPrompt);
+                _interface.InputFilters.SetFilterMode(FilterMode.CommandExecutionPrompt);
 
-                lock (this._locker)
-                    System.Threading.Monitor.Wait(this._locker);
+                lock (_locker)
+                    System.Threading.Monitor.Wait(_locker);
 
-                return this._inputString;
+                return _inputString;
             }
             finally
             {
-                this._interface.InputFilters.SetFilterMode(FilterMode.Execution);
-                this.IsActive = false;
-                this._inputString = null;
+                _interface.InputFilters.SetFilterMode(FilterMode.Execution);
+                IsActive = false;
+                _inputString = null;
             }
         }
 
@@ -54,22 +54,22 @@ namespace BitPantry.Theta.Host.WindowsForms
             switch (args.Result)
             {
                 case KeyInputFilterResult.Input_CommandExecutionSubmit:
-                    this._inputString = this._interface.GetCurrentInputString();
-                    this._interface.Out.Standard.WriteLine();
-                    lock (this._locker)
-                        System.Threading.Monitor.Pulse(this._locker);
+                    _inputString = _interface.GetCurrentInputString();
+                    _interface.Out.Standard.WriteLine();
+                    lock (_locker)
+                        System.Threading.Monitor.Pulse(_locker);
                     break;
             }
         }
 
         private void ActivationGate()
         {
-            lock (this._locker)
+            lock (_locker)
             {
-                if (this.IsActive)
+                if (IsActive)
                     throw new InvalidOperationException("Another prompt operation is already active");
 
-                this.IsActive = true;
+                IsActive = true;
             }
         }
 

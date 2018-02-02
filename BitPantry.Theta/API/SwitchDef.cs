@@ -14,13 +14,13 @@ namespace BitPantry.Theta.API
         public string Synopsis { get; internal set; }
 
         private List<string> _aliases = new List<string>();
-        public IEnumerable<string> Aliases { get { return this._aliases.AsReadOnly(); } }
+        public IEnumerable<string> Aliases { get { return _aliases.AsReadOnly(); } }
 
         #region ADD FUNCTIONS
 
         internal void AddAliases(IEnumerable<string> aliases)
         {
-            this._aliases.AddRange(aliases);
+            _aliases.AddRange(aliases);
         }
 
         #endregion
