@@ -62,9 +62,6 @@
     <Content Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Credera.Theta.Utility.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BitPantry.Theta.Modules\BitPantry.Theta.Modules.csproj">
       <Project>{82c85e62-6d26-4fc9-84da-838f6bc6b927}</Project>
       <Name>BitPantry.Theta.Modules</Name>
@@ -73,6 +70,9 @@
       <Project>{36fc638c-9dd5-4f9a-9a3e-0d8bc6286bf0}</Project>
       <Name>BitPantry.Theta</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BitPantry.Theta.Utility.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
