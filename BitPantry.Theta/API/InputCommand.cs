@@ -29,20 +29,20 @@ namespace BitPantry.Theta.API
 
         internal void InstallInterfaceServices(IHostInterface hostInterface)
         {
-            this.Host = hostInterface;
+            Host = hostInterface;
 
-            this.Out = new InputCommandOutputCollection(
-                this.Host != null ? this.Host.Out.Standard : this._nullWriter,
-                this.Host != null ? this.Host.Out.Warning : this._nullWriter,
-                this.Host != null ? this.Host.Out.Error : this._nullWriter,
-                this.Debug.IsPresent && this.Host != null ? this.Host.Out.Debug : this._nullWriter,
-                this.Verbose.IsPresent && this.Host != null ? this.Host.Out.Verbose : this._nullWriter,
-                this.Host != null ? this.Host.Out.Accent1 : this._nullWriter,
-                this.Host != null ? this.Host.Out.Accent2 : this._nullWriter,
-                this.Host != null ? this.Host.Out.Accent3 : this._nullWriter,
-                this.Host != null ? this.Host.Out.Accent4 : this._nullWriter,
-                this.Host != null ? this.Host.Out.Accent5 : this._nullWriter,
-                this.Host != null ? this.Host.Out.Object : (IObjectWriter) new NullObjectWriter());
+            Out = new InputCommandOutputCollection(
+                Host != null ? Host.Out.Standard : _nullWriter,
+                Host != null ? Host.Out.Warning : _nullWriter,
+                Host != null ? Host.Out.Error : _nullWriter,
+                Debug.IsPresent && Host != null ? Host.Out.Debug : _nullWriter,
+                Verbose.IsPresent && Host != null ? Host.Out.Verbose : _nullWriter,
+                Host != null ? Host.Out.Accent1 : _nullWriter,
+                Host != null ? Host.Out.Accent2 : _nullWriter,
+                Host != null ? Host.Out.Accent3 : _nullWriter,
+                Host != null ? Host.Out.Accent4 : _nullWriter,
+                Host != null ? Host.Out.Accent5 : _nullWriter,
+                Host != null ? Host.Out.Object : (IObjectWriter) new NullObjectWriter());
         }
 
         public abstract void Invoke(CommandInvocationContext context);
@@ -54,17 +54,17 @@ namespace BitPantry.Theta.API
 
         protected string Prompt(string prompt)
         {
-            return this.Host.Prompt(prompt);
+            return Host.Prompt(prompt);
         }
 
         protected InputCommand()
         {
-            this._nullWriter = new NullWriter();
+            _nullWriter = new NullWriter();
         }
 
         protected bool Confirm(string message, ConfirmationResult defaultResult = ConfirmationResult.Yes)
         {
-            return new ConfirmationAlert(this.Host).Confirm(message, defaultResult) == ConfirmationResult.Yes ? true : false;
+            return new ConfirmationAlert(Host).Confirm(message, defaultResult) == ConfirmationResult.Yes ? true : false;
         }
     }
 }

@@ -15,8 +15,8 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public CommandExecutionPromptEventsFilter(Action<KeyInputFilterResult> handleResultAction)
         {
-            this.IsEngaged = true;
-            this._handleResultAction = handleResultAction;
+            IsEngaged = true;
+            _handleResultAction = handleResultAction;
         }
 
         public void HandleKeyDown(InputEventsFilterArgs args, KeyEventArgs e)
@@ -25,7 +25,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             {
                 case Keys.Enter:
                     if (args.InputPosition >= 0)
-                        this._handleResultAction(KeyInputFilterResult.Input_CommandExecutionSubmit);
+                        _handleResultAction(KeyInputFilterResult.Input_CommandExecutionSubmit);
                     e.SuppressKeyPress = true;
                     break;
                 case Keys.Up:
@@ -52,7 +52,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         }
 
-        public void Engage() { this.IsEngaged = true; }
-        public void Disengage() { this.IsEngaged = false; }
+        public void Engage() { IsEngaged = true; }
+        public void Disengage() { IsEngaged = false; }
     }
 }

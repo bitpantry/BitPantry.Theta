@@ -24,7 +24,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             {
                 case Keys.C:
                     if (e.Modifiers == Keys.Control)
-                        this._handleResultAction(KeyInputFilterResult.Exec_CancelCommandExecution);
+                        _handleResultAction(KeyInputFilterResult.Exec_CancelCommandExecution);
                     e.SuppressKeyPress = true;
                     break;
             }
@@ -47,7 +47,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             e.Handled = true;
         }
 
-        public void Engage() { this.IsEngaged = true; }
-        public void Disengage() { this.IsEngaged = false; }
+        public void Engage() { IsEngaged = true; }
+        public void Disengage() { IsEngaged = false; }
     }
 }

@@ -17,7 +17,7 @@ namespace BitPantry.Theta.Processing
         {
             // load command from resolver
 
-            InputCommand cmd = this.CreateInputCommand(resolver, host);
+            InputCommand cmd = CreateInputCommand(resolver, host);
 
             // set internal properties
 

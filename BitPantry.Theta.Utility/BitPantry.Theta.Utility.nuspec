@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title></title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/bitpantry/Bitpantry.Theta</licenseUrl>
+    <projectUrl>https://github.com/bitpantry/Bitpantry.Theta</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Converting to github</releaseNotes>
+    <copyright>Copyright BitPantry 2017</copyright>
+    <tags>commandline console utility</tags>
+  </metadata>
+</package>

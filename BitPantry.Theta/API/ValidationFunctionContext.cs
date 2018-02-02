@@ -15,9 +15,9 @@ namespace BitPantry.Theta.API
  
         internal ValidationFunctionContext(string value)
         {
-            this.Value = value;
+            Value = value;
 
-            this.IsValid = true;
+            IsValid = true;
         }
     }
 }

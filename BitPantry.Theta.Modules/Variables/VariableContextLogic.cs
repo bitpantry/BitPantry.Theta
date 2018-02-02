@@ -32,21 +32,21 @@ namespace BitPantry.Theta.Modules.Variables
 
         private VariableContextLogic() 
         {
-            this.DiscardChanges();
-            if (this.CurrentContext == null)
+            DiscardChanges();
+            if (CurrentContext == null)
             {
-                if (!this.VariableContextCollection.Contexts.Any(c => c.Name.Equals(DEFAULT_VARIABLE_CONTEXT_NAME)))
+                if (!VariableContextCollection.Contexts.Any(c => c.Name.Equals(DEFAULT_VARIABLE_CONTEXT_NAME)))
                 {
-                    this.VariableContextCollection.Contexts.Add(new VariableContext()
+                    VariableContextCollection.Contexts.Add(new VariableContext()
                     {
                         Name = DEFAULT_VARIABLE_CONTEXT_NAME,
                         Description = "Default variable context. This context is loaded by default when the module is initialized"
                     });
-                
-                    this.Save();
+
+                    Save();
                 }
 
-                this.CurrentContext = this.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(DEFAULT_VARIABLE_CONTEXT_NAME));
+                CurrentContext = VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(DEFAULT_VARIABLE_CONTEXT_NAME));
             }
         }
 
@@ -56,7 +56,7 @@ namespace BitPantry.Theta.Modules.Variables
         {
             XmlSerializer serializer = new XmlSerializer(typeof(VariableContextCollection));
             using (FileStream stream = File.Create(FILE_PATH_VARIABLES))
-                serializer.Serialize(stream, this.VariableContextCollection);
+                serializer.Serialize(stream, VariableContextCollection);
         }
 
         public void DiscardChanges()
@@ -65,12 +65,12 @@ namespace BitPantry.Theta.Modules.Variables
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(VariableContextCollection));
                 using (FileStream stream = File.OpenRead(FILE_PATH_VARIABLES))
-                    this.VariableContextCollection = (VariableContextCollection)serializer.Deserialize(stream);
+                    VariableContextCollection = (VariableContextCollection)serializer.Deserialize(stream);
             }
             else
             {
-                this.VariableContextCollection = new VariableContextCollection();
-                this.Save();
+                VariableContextCollection = new VariableContextCollection();
+                Save();
             }
         }
     }

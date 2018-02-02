@@ -23,15 +23,15 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            if (string.IsNullOrEmpty(this.Context) && VariableContextLogic.Instance.CurrentContext == null)
+            if (string.IsNullOrEmpty(Context) && VariableContextLogic.Instance.CurrentContext == null)
             {
                 base.Out.Error.WriteLine("There is no context set or specified - please specify or set a context first");
             }
             else
             {
                 var ctx = VariableContextLogic.Instance.CurrentContext;
-                if (!string.IsNullOrWhiteSpace(this.Context))
-                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrWhiteSpace(Context))
+                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
 
                 base.Out.Object.Table(TableRecords.CreateVariableRecordList(ctx.Variables.ToArray()));
             }

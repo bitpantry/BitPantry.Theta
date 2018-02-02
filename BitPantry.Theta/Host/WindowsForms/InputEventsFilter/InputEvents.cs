@@ -16,10 +16,10 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public InputEvents()
         {
-            this.KeyUpData = null;
-            this.KeysDownData = null;
-            this.KeyPressData = null;
-            this.CopyEventArgs = null;
+            KeyUpData = null;
+            KeysDownData = null;
+            KeyPressData = null;
+            CopyEventArgs = null;
         }
     }
 }

@@ -18,15 +18,15 @@ namespace BitPantry.Theta.Component.Writers
             { 
                 // break lines by line return
 
-                var lines = this.Value == null 
+                var lines = Value == null 
                     ? new List<string>() 
-                    : this.Value.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+                    : Value.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
 
                 // break up long lines
 
                 var resizedLines = new List<string>();
                 foreach (var line in lines)
-                    resizedLines.AddRange(this.BreakLongLine(line));
+                    resizedLines.AddRange(BreakLongLine(line));
 
                 // remove last line if empty
 
@@ -65,15 +65,15 @@ namespace BitPantry.Theta.Component.Writers
         {
            get 
            {
-               if (this.Lines.Count == 0)
+               if (Lines.Count == 0)
                    return 0;
-                return this.Lines.Select(l => l.Length).Max();
+                return Lines.Select(l => l.Length).Max();
            } 
         }
 
         public TableCell()
         {
-            this.Value = null;
+            Value = null;
         }
         
     }

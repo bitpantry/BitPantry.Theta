@@ -22,7 +22,7 @@ namespace BitPantry.Theta.Component
         {
             get
             {
-                if (this._commands.Count == 0)
+                if (_commands.Count == 0)
                     return new List<InputCommandDef>();
                 return _commands.Select(t => t.DescribeInputCommand()).ToList();
             }
@@ -30,29 +30,29 @@ namespace BitPantry.Theta.Component
 
         public InputCommandDef this[int index]
         {
-            get { return this.Definitions[index]; }
+            get { return Definitions[index]; }
         }
 
         public int Count
         {
-            get { return this.Definitions.Count; }
+            get { return Definitions.Count; }
         }
 
         public IEnumerator<InputCommandDef> GetEnumerator()
         {
-            return this.Definitions.GetEnumerator();
+            return Definitions.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.Definitions.GetEnumerator();
+            return Definitions.GetEnumerator();
         }
 
         #endregion
 
         internal CommandCollection()
         {
-            this._commands = new List<Type>();
+            _commands = new List<Type>();
         }
 
         #region COMMAND REGISTRATION
@@ -64,22 +64,22 @@ namespace BitPantry.Theta.Component
         /// <remarks>All commands are registered together - so that, if one has an issue, none are registered</remarks>
         public void Register(params Type[] commands)
         {
-            lock (this.locker)
+            lock (locker)
             {
                 // validate commands before adding them
 
                 foreach (var type in commands)
                 {
-                    if (this._commands.Contains(type))
+                    if (_commands.Contains(type))
                         throw new Exception(string.Format("The command type '{0}' is already registered.", type));
-                        
-                    this.ValidateCommand(type);
+
+                    ValidateCommand(type);
                 } 
        
                 // register commands
 
                 foreach (var type in commands)
-                    this._commands.Add(type);
+                    _commands.Add(type);
             }
         }
 
@@ -90,7 +90,7 @@ namespace BitPantry.Theta.Component
             commandNames.Add(definition.CommandName);
             commandNames.AddRange(definition.Aliases);
 
-            foreach (var def in this.Definitions)
+            foreach (var def in Definitions)
             {
                 List<string> regCommandNames = new List<string>();
                 regCommandNames.Add(def.CommandName);
@@ -110,10 +110,10 @@ namespace BitPantry.Theta.Component
         /// <remarks>If the commands are part of a module, an exception will be thrown</remarks>
         public void Unregister(params Type[] commands)
         {
-            lock (this.locker)
+            lock (locker)
             {
                 foreach (var type in commands)
-                    this._commands.Remove(type);
+                    _commands.Remove(type);
             }
         }
 

@@ -18,17 +18,17 @@ namespace BitPantry.Theta.Processing
 
         public CommandValidator(InputCommand command, IHostInterface host)
         {
-            this.Command = command;
-            this.Host = host;
-            this.Errors = new List<CommandValidatorError>();
+            Command = command;
+            Host = host;
+            Errors = new List<CommandValidatorError>();
 
-            this.EvaluateParameterAnalysis();
-            this.ValidateParameterValues();
+            EvaluateParameterAnalysis();
+            ValidateParameterValues();
         }
 
         private void ValidateParameterValues()
         {
-            var definition = this.Command.GetType().DescribeInputCommand();
+            var definition = Command.GetType().DescribeInputCommand();
 
             foreach (var param in definition.Parameters.Where(p => 
                 (p.UseAutoCompleteForValidation && !string.IsNullOrWhiteSpace(p.AutoCompleteValuesFunction)) 
@@ -36,7 +36,7 @@ namespace BitPantry.Theta.Processing
             {
                 // get parameter value
 
-                string value = param.PropertyInfo.GetValue(this.Command)?.ToString();
+                string value = param.PropertyInfo.GetValue(Command)?.ToString();
                 
                 if (value != null) // compare to validation values
                 {
@@ -49,18 +49,18 @@ namespace BitPantry.Theta.Processing
 
                         if (param.UseAutoCompleteForValidation)
                         {
-                            var methodInfo = this.Command.GetType().GetMethod(param.AutoCompleteValuesFunction);
+                            var methodInfo = Command.GetType().GetMethod(param.AutoCompleteValuesFunction);
 
                             var context = new AutoCompleteValuesFunctionContext();
-                            methodInfo.Invoke(this.Command, new object[] { context });
+                            methodInfo.Invoke(Command, new object[] { context });
                             isValid = context.Values.Contains(value, StringComparer.OrdinalIgnoreCase);
                         }
                         else
                         {
-                            var methodInfo = this.Command.GetType().GetMethod(param.ValidationFunction);
+                            var methodInfo = Command.GetType().GetMethod(param.ValidationFunction);
 
                             var context = new ValidationFunctionContext(value);
-                            methodInfo.Invoke(this.Command, new object[] { context });
+                            methodInfo.Invoke(Command, new object[] { context });
                             isValid = context.IsValid;
                             validationMessage = context.Message;
                         }
@@ -72,7 +72,7 @@ namespace BitPantry.Theta.Processing
 
                         if (!isValid)
                         {
-                            this.Errors.Add(new CommandValidatorError()
+                            Errors.Add(new CommandValidatorError()
                             {
                                 Type = CommandValidationType.InvalidParameterValue,
                                 Parameters = new List<ParameterDef>() { param },
@@ -83,7 +83,7 @@ namespace BitPantry.Theta.Processing
                     }
                     catch (Exception ex)
                     {
-                        this.Errors.Add(new CommandValidatorError()
+                        Errors.Add(new CommandValidatorError()
                         {
                             Type = CommandValidationType.InvalidValidationValuesFunction,
                             Parameters = new List<ParameterDef>() { param },
@@ -102,10 +102,10 @@ namespace BitPantry.Theta.Processing
 
         private void EvaluateParameterAnalysis()
         {
-            CommandParameterAnalysis analysis = new CommandParameterAnalysis(this.Command);
+            CommandParameterAnalysis analysis = new CommandParameterAnalysis(Command);
 
             if (analysis.MissingRequiredParameters.Count() > 0)
-                this.Errors.Add(new CommandValidatorError()
+                Errors.Add(new CommandValidatorError()
                 {
                     Type = CommandValidationType.MissingRequiredParameters,
                     Parameters = analysis.MissingRequiredParameters,
@@ -114,7 +114,7 @@ namespace BitPantry.Theta.Processing
                 });
 
             if (analysis.SuperflousParameters.Count() > 0)
-                this.Errors.Add(new CommandValidatorError()
+                Errors.Add(new CommandValidatorError()
                 {
                     Type = CommandValidationType.SuperflousParametersPresent,
                     Parameters = analysis.SuperflousParameters,

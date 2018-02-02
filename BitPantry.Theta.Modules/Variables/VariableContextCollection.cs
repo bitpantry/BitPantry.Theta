@@ -16,7 +16,7 @@ namespace BitPantry.Theta.Modules.Variables
 
         public VariableContextCollection()
         {
-            this.Contexts = new List<VariableContext>();
+            Contexts = new List<VariableContext>();
         }
     }
 }

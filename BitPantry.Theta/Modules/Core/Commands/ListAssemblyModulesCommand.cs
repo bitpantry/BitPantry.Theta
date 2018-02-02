@@ -20,7 +20,7 @@ namespace BitPantry.Theta.Modules.Core.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            base.Out.Object.Table(TableRecords.CreateModuleTableRecordList(false, AssemblyUtil.GetAssemblyModules(this.Assembly).ToArray()));
+            base.Out.Object.Table(TableRecords.CreateModuleTableRecordList(false, AssemblyUtil.GetAssemblyModules(Assembly).ToArray()));
         }
 
         public void GetAssemblyFilenameAutoCompleteValues(AutoCompleteValuesFunctionContext context)

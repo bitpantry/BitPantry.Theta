@@ -26,14 +26,14 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            if (base.Confirm(string.Format("The variable '{0}' will be deleted - this cannot be undone", this.Name), Component.ConfirmationResult.Yes))
+            if (base.Confirm(string.Format("The variable '{0}' will be deleted - this cannot be undone", Name), Component.ConfirmationResult.Yes))
             {
                 var contextsToApply = new List<VariableContext>();
 
-                if (!this.AllContexts.IsPresent) // apply to specified or default context
+                if (!AllContexts.IsPresent) // apply to specified or default context
                 {
                     VariableContext ctx = null;
-                    if (string.IsNullOrEmpty(this.Context)) // try to use the current context
+                    if (string.IsNullOrEmpty(Context)) // try to use the current context
                     {
                         if (VariableContextLogic.Instance.CurrentContext == null)
                         {
@@ -46,7 +46,7 @@ namespace BitPantry.Theta.Modules.Variables.Commands
                     }
                     else // try to or use the specified context
                     {
-                        ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
+                        ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
                     }
 
                     contextsToApply.Add(ctx);
@@ -61,16 +61,16 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
                 foreach (var ctxToApply in contextsToApply)
                 {
-                    if (ctxToApply.Variables.Any(v => v.Name.Equals(this.Name)))
+                    if (ctxToApply.Variables.Any(v => v.Name.Equals(Name)))
                     {
-                        if (this.AllContexts.IsPresent)
+                        if (AllContexts.IsPresent)
                             base.Out.Verbose.WriteLine(string.Format("Deleting variable '{0}' for context '{1}'"
-                                , this.Name, ctxToApply.Name));
+                                , Name, ctxToApply.Name));
                         else
                             base.Out.Verbose.WriteLine(string.Format("Deleting variable '{0}'"
-                                , this.Name));
+                                , Name));
 
-                        ctxToApply.Variables.Remove(ctxToApply.Variables.FirstOrDefault(v => v.Name.Equals(this.Name)));
+                        ctxToApply.Variables.Remove(ctxToApply.Variables.FirstOrDefault(v => v.Name.Equals(Name)));
                     }
                 }
 
@@ -89,7 +89,7 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
         public void GetVariableNamesAutoComplete(AutoCompleteValuesFunctionContext context)
         {
-            if (this.AllContexts.IsPresent)
+            if (AllContexts.IsPresent)
             {
                 context.Values.AddRange(VariableContextLogic.Instance.VariableContextCollection.Contexts
                     .SelectMany(c => c.Variables.Select(v => v.Name)).Distinct().ToList());
@@ -97,8 +97,8 @@ namespace BitPantry.Theta.Modules.Variables.Commands
             else
             {
                 var ctx = VariableContextLogic.Instance.CurrentContext;
-                if (ctx == null && !string.IsNullOrWhiteSpace(this.Context))
-                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
+                if (ctx == null && !string.IsNullOrWhiteSpace(Context))
+                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
 
                 if (ctx == null)
                     return;

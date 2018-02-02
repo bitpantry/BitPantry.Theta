@@ -31,17 +31,17 @@ namespace BitPantry.Theta.Modules.Core.Commands
             var def = base.Host.Commands.FirstOrDefault(c => c.CommandName.Equals(CommandName, StringComparison.OrdinalIgnoreCase)
                 || c.Aliases.Contains(CommandName, StringComparer.OrdinalIgnoreCase));
 
-            this.WriteHeaderHelp(def);
-            this.WriteSyntax(def);
-            this.WriteParameters(def);
-            this.WriteSwitches(def);
+            WriteHeaderHelp(def);
+            WriteSyntax(def);
+            WriteParameters(def);
+            WriteSwitches(def);
 
             var cmd = (InputCommand)Activator.CreateInstance(def.InputCommandType);
 
-            if (this.Details.IsPresent)
-                this.WriteDetails(cmd);
-            if (this.Examples.IsPresent)
-                this.WriteExamples(cmd);
+            if (Details.IsPresent)
+                WriteDetails(cmd);
+            if (Examples.IsPresent)
+                WriteExamples(cmd);
 
             base.Out.Standard.WriteLine();
         }
@@ -87,8 +87,8 @@ namespace BitPantry.Theta.Modules.Core.Commands
 
                 base.Out.Standard.WriteLine();
 
-                this.WriteAttribute("Synopsis:", item.Synopsis);
-                this.WriteAttribute("Aliases:", item.Aliases.Count() == 0 ? string.Empty : string.Join(", ", item.Aliases));
+                WriteAttribute("Synopsis:", item.Synopsis);
+                WriteAttribute("Aliases:", item.Aliases.Count() == 0 ? string.Empty : string.Join(", ", item.Aliases));
             }
 
         }
@@ -110,12 +110,12 @@ namespace BitPantry.Theta.Modules.Core.Commands
 
                 base.Out.Standard.WriteLine();
 
-                this.WriteAttribute("Synopsis:", param.Synopsis);
-                this.WriteAttribute("Aliases:", param.Aliases.Count() == 0 ? string.Empty : string.Join(", ", param.Aliases));
-                this.WriteAttribute("IsRequired:", param.IsRequired);
-                this.WriteAttribute("OrdinalPosition:", param.OrdinalPosition < 1 ? string.Empty : param.OrdinalPosition.ToString());
-                this.WriteAttribute("ParameterSet:", param.ParameterSet);
-                this.WriteAttribute("AutoComplete:", string.IsNullOrWhiteSpace(param.AutoCompleteValuesFunction));
+                WriteAttribute("Synopsis:", param.Synopsis);
+                WriteAttribute("Aliases:", param.Aliases.Count() == 0 ? string.Empty : string.Join(", ", param.Aliases));
+                WriteAttribute("IsRequired:", param.IsRequired);
+                WriteAttribute("OrdinalPosition:", param.OrdinalPosition < 1 ? string.Empty : param.OrdinalPosition.ToString());
+                WriteAttribute("ParameterSet:", param.ParameterSet);
+                WriteAttribute("AutoComplete:", string.IsNullOrWhiteSpace(param.AutoCompleteValuesFunction));
             }
         }
 

@@ -22,16 +22,16 @@ namespace BitPantry.Theta.Component.Modules
 
         public ModuleValidator(List<IModule> modules)
         {
-            this._modules = modules;
+            _modules = modules;
         }
 
         public ModuleValidationResult Validate(Type moduleType)
         {
             // check if module is already installed or installed from another or different assembly
 
-            if (this._modules.Exists(m => m.GetType().FullName.Equals(moduleType.FullName)))
+            if (_modules.Exists(m => m.GetType().FullName.Equals(moduleType.FullName)))
             {
-                var installedModule = this._modules.FirstOrDefault(m => m.GetType().FullName.Equals(moduleType.FullName));
+                var installedModule = _modules.FirstOrDefault(m => m.GetType().FullName.Equals(moduleType.FullName));
                 if (installedModule.GetType().Assembly == moduleType.Assembly)
                     return ModuleValidationResult.AlreadyInstalled;
                 else
@@ -42,12 +42,12 @@ namespace BitPantry.Theta.Component.Modules
 
             IModule module = (IModule)Activator.CreateInstance(moduleType);
 
-            if (this._modules.Exists(m => m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_modules.Exists(m => m.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase)))
                 return ModuleValidationResult.DuplicateName;
 
             // validate that there are no circular references in the modules dependency hierearchy
 
-            if (this.IsCircularReference(module, new List<Type>()))
+            if (IsCircularReference(module, new List<Type>()))
                 return ModuleValidationResult.CircularReference;
 
             // return valid
@@ -66,7 +66,7 @@ namespace BitPantry.Theta.Component.Modules
                     if (extensions.Contains(dependency))
                         return true;
 
-                    if (this.IsCircularReference((IModule)Activator.CreateInstance(dependency), new List<Type>(extensions)))
+                    if (IsCircularReference((IModule)Activator.CreateInstance(dependency), new List<Type>(extensions)))
                         return true;
                 }
             }

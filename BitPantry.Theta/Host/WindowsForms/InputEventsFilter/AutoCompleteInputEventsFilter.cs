@@ -15,8 +15,8 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public AutoCompleteInputEventsFilter(Action<KeyInputFilterResult> handleResultAction)
         {
-            this.IsEngaged = true;
-            this._handleResultAction = handleResultAction;
+            IsEngaged = true;
+            _handleResultAction = handleResultAction;
         }
 
         public void HandleKeyDown(InputEventsFilterArgs args, KeyEventArgs e)
@@ -24,17 +24,17 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
                     e.SuppressKeyPress = true;
                     break;
                 case Keys.Up:
-                    this._handleResultAction(KeyInputFilterResult.Input_Focus);
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_SelectPrevious);
+                    _handleResultAction(KeyInputFilterResult.Input_Focus);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_SelectPrevious);
                     e.SuppressKeyPress = true;
                     break;
                 case Keys.Down:
-                    this._handleResultAction(KeyInputFilterResult.Input_Focus);
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_SelectNext);
+                    _handleResultAction(KeyInputFilterResult.Input_Focus);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_SelectNext);
                     e.SuppressKeyPress = true;
                     break;
                 case Keys.Cancel:
@@ -48,7 +48,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             switch (e.KeyData)
             {
                 case Keys.Tab:
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
                     e.SuppressKeyPress = true;
                     break;
             }
@@ -59,11 +59,11 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             switch ((int)e.KeyChar)
             {
                 case 32: // space
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_Submit);
                     e.Handled = true;
                     break;
                 case 27: // escape
-                    this._handleResultAction(KeyInputFilterResult.AutoComplete_Cancel);
+                    _handleResultAction(KeyInputFilterResult.AutoComplete_Cancel);
                     e.Handled = true;
                     break;
             }
@@ -74,7 +74,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         }
 
-        public void Engage() { this.IsEngaged = true; }
-        public void Disengage() { this.IsEngaged = false; }
+        public void Engage() { IsEngaged = true; }
+        public void Disengage() { IsEngaged = false; }
     }
 }

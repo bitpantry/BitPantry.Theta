@@ -23,7 +23,7 @@ namespace BitPantry.Theta.API
         /// <param name="alias">The alias</param>
         public Alias(string alias)
         {
-            this.Value = alias;
+            Value = alias;
         }
     }
 }

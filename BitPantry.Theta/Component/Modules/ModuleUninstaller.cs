@@ -17,9 +17,9 @@ namespace BitPantry.Theta.Component.Modules
 
         public ModuleUninstaller(CommandCollection commands, List<IModule> modules, IWriterCollection writers)
         {
-            this._commands = commands;
-            this._modules = modules;
-            this._writers = writers;
+            _commands = commands;
+            _modules = modules;
+            _writers = writers;
         }
 
         public bool Uninstall(Type moduleType)
@@ -30,18 +30,18 @@ namespace BitPantry.Theta.Component.Modules
             {
                 module = (IModule)Activator.CreateInstance(moduleType);
 
-                this._writers.Verbose.WriteLine(string.Format("Uninstalling module '{0}' ...", module.Name));
+                _writers.Verbose.WriteLine(string.Format("Uninstalling module '{0}' ...", module.Name));
 
-                if (!this.IsDependency(moduleType))
+                if (!IsDependency(moduleType))
                 {
                     // remove self 
 
                     if (module.CommandTypes != null)
-                        this._commands.Unregister(module.CommandTypes.ToArray());
+                        _commands.Unregister(module.CommandTypes.ToArray());
 
                     module.Uninstall();
 
-                    this._modules.Remove(this._modules.FirstOrDefault(m => m.GetType() == moduleType));
+                    _modules.Remove(_modules.FirstOrDefault(m => m.GetType() == moduleType));
 
                     // remove dependencies
 
@@ -49,16 +49,16 @@ namespace BitPantry.Theta.Component.Modules
                     {
                         foreach (var dependencyType in module.Dependencies)
                         {
-                            if (!this.IsDependency(dependencyType))
-                                this.Uninstall(dependencyType);
+                            if (!IsDependency(dependencyType))
+                                Uninstall(dependencyType);
                             else
-                                this._writers.Verbose.WriteLine(string.Format("Dependency '{0}' is a dependency for other installed modules and will not be uninstalled.", dependencyType));
+                                _writers.Verbose.WriteLine(string.Format("Dependency '{0}' is a dependency for other installed modules and will not be uninstalled.", dependencyType));
                         }
                     }
                 }
                 else
                 {
-                    this._writers.Warning.WriteLine(string.Format("Module '{0}' is a dependency and cannot be uninstalled. Uninstall modules that are dependent first.", module.Name));
+                    _writers.Warning.WriteLine(string.Format("Module '{0}' is a dependency and cannot be uninstalled. Uninstall modules that are dependent first.", module.Name));
                     return false;
                 }
 
@@ -66,7 +66,7 @@ namespace BitPantry.Theta.Component.Modules
             }
             catch (Exception ex)
             {
-                this._writers.Error.WriteLine(string.Format("Module '{0}' failed to uninstall :: {1}\r\n{2}"
+                _writers.Error.WriteLine(string.Format("Module '{0}' failed to uninstall :: {1}\r\n{2}"
                     , module == null ? moduleType.ToString() : module.Name, ex.Message, ex.StackTrace));
                 return false;
             }
@@ -74,7 +74,7 @@ namespace BitPantry.Theta.Component.Modules
 
         private bool IsDependency(Type moduleType)
         {
-            foreach (var installedModule in this._modules)
+            foreach (var installedModule in _modules)
             {
                 if (installedModule.Dependencies != null && installedModule.Dependencies.Contains(moduleType))
                     return true;

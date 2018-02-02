@@ -2,6 +2,7 @@
 using BitPantry.Theta.Component;
 using BitPantry.Theta.Component.Modules;
 using BitPantry.Theta.Component.Writers;
+using System;
 
 namespace BitPantry.Theta.Host
 {
@@ -19,9 +20,8 @@ namespace BitPantry.Theta.Host
         CommandCollection Commands { get; }
         ModuleCollection Modules { get; }
         ICommandActivatorContainer CommandActivatorContainer { get; }
-
-
         string Prompt(string prompt);
+        void SetWritePromptAction(Action<HostWriterCollection> del);
         void Clear();
     }
 }

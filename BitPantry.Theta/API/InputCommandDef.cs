@@ -25,20 +25,20 @@ namespace BitPantry.Theta.API
         /// <summary>
         /// Gets the list of command aliases
         /// </summary>
-        public IEnumerable<string> Aliases { get { return this._aliases.AsReadOnly(); } }
+        public IEnumerable<string> Aliases { get { return _aliases.AsReadOnly(); } }
 
 
         private List<ParameterDef> _parameters = new List<ParameterDef>();
         /// <summary>
         /// Gets the list of descriptors for the parameters defined for the command type
         /// </summary>
-        public IEnumerable<ParameterDef> Parameters { get { return this._parameters.AsReadOnly(); } }
+        public IEnumerable<ParameterDef> Parameters { get { return _parameters.AsReadOnly(); } }
 
         private List<SwitchDef> _switches = new List<SwitchDef>();
         /// <summary>
         /// Gets the list of descriptors fot the switches defined for the command
         /// </summary>
-        public IEnumerable<SwitchDef> Switches { get { return this._switches.AsReadOnly(); } }
+        public IEnumerable<SwitchDef> Switches { get { return _switches.AsReadOnly(); } }
 
         /// <summary>
         /// A synopsis of the input command
@@ -59,17 +59,17 @@ namespace BitPantry.Theta.API
 
         internal void Add(IEnumerable<SwitchDef> switches)
         {
-            this._switches.AddRange(switches);
+            _switches.AddRange(switches);
         }
 
         internal void Add(IEnumerable<ParameterDef> parameters)
         {
-            this._parameters.AddRange(parameters);
+            _parameters.AddRange(parameters);
         }
 
         internal void AddAliases(IEnumerable<string> aliases)
         {
-            this._aliases.AddRange(aliases);
+            _aliases.AddRange(aliases);
         }
 
         #endregion

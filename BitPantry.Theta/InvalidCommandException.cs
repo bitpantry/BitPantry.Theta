@@ -11,6 +11,6 @@ namespace BitPantry.Theta
         public Type InputCommandType { get; set; }
 
         public InvalidCommandException(Type inputCommandType, string message) : base(message)
-        { this.InputCommandType = inputCommandType; }
+        { InputCommandType = inputCommandType; }
     }
 }
