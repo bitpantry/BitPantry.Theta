@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Theta</id>
+    <id>$id$</id>
     <version>$version$</version>
-    <title>Theta</title>
+    <title></title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://theta.codeplex.com/license</licenseUrl>
-    <projectUrl>https://theta.codeplex.com/</projectUrl>
+    <licenseUrl>https://github.com/bitpantry/Bitpantry.Theta</licenseUrl>
+    <projectUrl>https://github.com/bitpantry/Bitpantry.Theta</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added dependency injection support</releaseNotes>
-    <copyright>Copyright 2017</copyright>
-    <tags>Console CommandLine</tags>
+    <releaseNotes>Converting to github</releaseNotes>
+    <copyright>Copyright BitPantry 2017</copyright>
+    <tags>commandline console utility</tags>
   </metadata>
-  <files>
-    <file src="bin\release\BitPantry.Theta.dll" target="lib\net45"/>
-  </files>
 </package>
