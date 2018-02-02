@@ -10,6 +10,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitPantry.Theta.Utility", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitPantry.Theta.Utility.Console", "BitPantry.Theta.Utility.Console\BitPantry.Theta.Utility.Console.csproj", "{D4BDC632-EB62-4788-9865-9B61DB35EF75}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{CCEB8E32-337B-4500-9930-6E2AB1510BDA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		appveyor.yml.txt = appveyor.yml.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
