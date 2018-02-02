@@ -10,8 +10,6 @@ environment:
   version_major: 1
   version_minor: 4
   version_revision: 0
-before_build:
-- cmd: nuget restore
 build:
   publish_nuget: true
   publish_nuget_symbols: true
