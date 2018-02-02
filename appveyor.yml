@@ -1,4 +1,4 @@
-version: 1.1.0.{build}
+version: 1.4.0.{build}
 configuration: Release
 assembly_info:
   patch: true
@@ -8,8 +8,10 @@ assembly_info:
   assembly_informational_version: '{version}'
 environment:
   version_major: 1
-  version_minor: 1
+  version_minor: 4
   version_revision: 0
+before_build:
+- cmd: nuget restore
 build:
   publish_nuget: true
   publish_nuget_symbols: true
