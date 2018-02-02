@@ -14,34 +14,34 @@ namespace BitPantry.Theta.Component
         
         public Input(string input)
         {
-            this.ParseInput(input);
+            ParseInput(input);
         }
          
         private void ParseInput(string input)
         {
             // identify leading white space
 
-            this.LeadingWhiteSpaceCount = input.Length - input.TrimStart().Length;
-
-            // create input nodes
-            
-            this.InputNodes = new List<InputNode>();
+            LeadingWhiteSpaceCount = input.Length - input.TrimStart().Length;
 
             // create input nodes
 
-            var splitInput = this.SplitInput(input);
+            InputNodes = new List<InputNode>();
+
+            // create input nodes
+
+            var splitInput = SplitInput(input);
             for (int i = 0; i < splitInput.Count(); i++)
             {
                 // add up length of previous input
 
-                int locationStart = this.LeadingWhiteSpaceCount
-                    + this.InputNodes.Select(n => n.EndPosition + 1 - n.StartPosition).Sum() + 1;
-                
-                this.InputNodes.Add(new InputNode(splitInput[i]
+                int locationStart = LeadingWhiteSpaceCount
+                    + InputNodes.Select(n => n.EndPosition + 1 - n.StartPosition).Sum() + 1;
+
+                InputNodes.Add(new InputNode(splitInput[i]
                     , i
                     , locationStart
                     , locationStart + splitInput[i].Length - 1 //+ (i == splitInput.Count - 1 ? 1 : 0) // increment final location end
-                    , this.InputNodes.LastOrDefault(n => n.ElementType != InputNodeType.Empty)));
+                    , InputNodes.LastOrDefault(n => n.ElementType != InputNodeType.Empty)));
 
             }
 
@@ -62,20 +62,20 @@ namespace BitPantry.Theta.Component
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(string.Empty.PadLeft(this.LeadingWhiteSpaceCount, ' '));
-            foreach (var node in this.InputNodes)
+            StringBuilder sb = new StringBuilder(string.Empty.PadLeft(LeadingWhiteSpaceCount, ' '));
+            foreach (var node in InputNodes)
                 sb.AppendFormat("{0}", node.ToString());
             return sb.ToString();
         }
 
         public InputNode GetNodeAtPosition(int position)
         {
-            return this.InputNodes.Where(n => n.StartPosition <= position && n.EndPosition >= position).FirstOrDefault();
+            return InputNodes.Where(n => n.StartPosition <= position && n.EndPosition >= position).FirstOrDefault();
         }
 
         public InputNode GetCommandNode()
         {
-            return this.InputNodes.FirstOrDefault(n => n.ElementType == InputNodeType.Command);
+            return InputNodes.FirstOrDefault(n => n.ElementType == InputNodeType.Command);
         }
 
     }

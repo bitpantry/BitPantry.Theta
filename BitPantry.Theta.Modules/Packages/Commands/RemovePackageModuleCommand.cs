@@ -24,9 +24,9 @@ namespace BitPantry.Theta.Modules.Packages.Commands
             if (base.Confirm("The module will be removed."))
             {
                 var pkg = PackageLogic.Instance.PackagesCollection.Packages
-                    .FirstOrDefault(e => e.Name.Equals(this.Package, StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(e => e.Name.Equals(Package, StringComparison.OrdinalIgnoreCase));
 
-                pkg.Modules.Remove(pkg.Modules.FirstOrDefault(m => m.Name.Equals(this.Module, StringComparison.OrdinalIgnoreCase)));
+                pkg.Modules.Remove(pkg.Modules.FirstOrDefault(m => m.Name.Equals(Module, StringComparison.OrdinalIgnoreCase)));
 
                 PackageLogic.Instance.Save();
 
@@ -44,12 +44,12 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
         public void GetModuleNameAutoComplete(AutoCompleteValuesFunctionContext context)
         {
-            if (string.IsNullOrWhiteSpace(this.Package))
+            if (string.IsNullOrWhiteSpace(Package))
                 return;
 
             context.Values.AddRange(
                 PackageLogic.Instance.PackagesCollection.Packages
-                .FirstOrDefault(e => e.Name.Equals(this.Package, StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(e => e.Name.Equals(Package, StringComparison.OrdinalIgnoreCase))
                 .Modules.Select(m => m.Name));
         }
     }

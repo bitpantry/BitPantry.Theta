@@ -27,17 +27,17 @@ namespace BitPantry.Theta.Component.Writers
             , InterceptWriter accent1, InterceptWriter accent2, InterceptWriter accent3, InterceptWriter accent4
             , InterceptWriter accent5, IObjectWriter objectWriter)
         {
-            this.Standard = standard;
-            this.Warning = warning;
-            this.Error = error;
-            this.Debug = debug;
-            this.Verbose = verbose;
-            this.Accent1 = accent1;
-            this.Accent2 = accent2;
-            this.Accent3 = accent3;
-            this.Accent4 = accent4;
-            this.Accent5 = accent5;
-            this.Object = objectWriter;
+            Standard = standard;
+            Warning = warning;
+            Error = error;
+            Debug = debug;
+            Verbose = verbose;
+            Accent1 = accent1;
+            Accent2 = accent2;
+            Accent3 = accent3;
+            Accent4 = accent4;
+            Accent5 = accent5;
+            Object = objectWriter;
         }
     }
 }

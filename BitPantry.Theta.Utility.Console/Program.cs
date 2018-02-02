@@ -18,13 +18,16 @@ namespace BitPantry.Theta.Utility.Console
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UtilityConsole(null, new Type[]
+
+            var console = new UtilityConsole(null, new Type[]
                 {
                     typeof(Modules.Packages.Module),
                     typeof(Modules.Variables.Module),
                     typeof(TestDiModule),
-                    typeof(TestParsingModule)               
-                }, new NinjectCommandActivator()));
+                    typeof(TestParsingModule)
+                }, new NinjectCommandActivator());
+
+            Application.Run(console);
         }
     }
 }

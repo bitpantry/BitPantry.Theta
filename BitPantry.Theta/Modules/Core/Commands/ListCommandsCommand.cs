@@ -27,8 +27,8 @@ namespace BitPantry.Theta.Modules.Core.Commands
         public override void Invoke(CommandInvocationContext context)
         {
             var commands = base.Host.Commands.ToList();
-            if (!string.IsNullOrWhiteSpace(this.Filter))
-                commands = commands.Where(c => c.CommandName.ToUpper().Contains(this.Filter.ToUpper())).ToList();
+            if (!string.IsNullOrWhiteSpace(Filter))
+                commands = commands.Where(c => c.CommandName.ToUpper().Contains(Filter.ToUpper())).ToList();
 
             List<dynamic> commandData = new List<dynamic>();
 
@@ -37,12 +37,12 @@ namespace BitPantry.Theta.Modules.Core.Commands
                 var module = base.Host.Modules.Where(m => m.CommandTypes.Contains(command.InputCommandType)).FirstOrDefault();
 
                 bool add = true;
-                if (!string.IsNullOrEmpty(this.Module) && !module.Name.Equals(this.Module))
+                if (!string.IsNullOrEmpty(Module) && !module.Name.Equals(Module))
                     add = false;
 
                 if (add)
                 {
-                    if (this.Full.IsPresent)
+                    if (Full.IsPresent)
                     {
                         commandData.Add(new
                         {

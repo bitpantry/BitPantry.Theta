@@ -20,8 +20,8 @@ namespace BitPantry.Theta.Processing
         {
             get
             {
-                return this.Nodes.Exists(n => !string.IsNullOrWhiteSpace(n.ResolutionError))
-                    || this.CommandDefinition == null;
+                return Nodes.Exists(n => !string.IsNullOrWhiteSpace(n.ResolutionError))
+                    || CommandDefinition == null;
             }
         }
 
@@ -30,9 +30,9 @@ namespace BitPantry.Theta.Processing
             get
             {
                 List<string> errors = new List<string>();
-                if (this.CommandDefinition == null)
+                if (CommandDefinition == null)
                     errors.Add("The input could not be resolved to a registered command");
-                errors.AddRange(this.Nodes.Where(n => !string.IsNullOrWhiteSpace(n.ResolutionError)).Select(n => n.ResolutionError).ToList());
+                errors.AddRange(Nodes.Where(n => !string.IsNullOrWhiteSpace(n.ResolutionError)).Select(n => n.ResolutionError).ToList());
                 return errors;
             }
         }
@@ -41,22 +41,22 @@ namespace BitPantry.Theta.Processing
         {
             // initialize
 
-            this.Input = input;
-            this.AvailableCommands = availableCommands;
-            this.Nodes = new List<CommandResolverNode>();
+            Input = input;
+            AvailableCommands = availableCommands;
+            Nodes = new List<CommandResolverNode>();
 
             // resolve command
 
-            this.CommandDefinition = Util.GetCommand(this.AvailableCommands, this.Input);
-            if (this.CommandDefinition != null)
+            CommandDefinition = Util.GetCommand(AvailableCommands, Input);
+            if (CommandDefinition != null)
             {
                 // resolve input nodes
 
-                this.ResolveInputNodes();
+                ResolveInputNodes();
 
                 // derive parameter set
 
-                this.ActiveParameterSet = this.Nodes.Where(n => n.Parameter != null
+                ActiveParameterSet = Nodes.Where(n => n.Parameter != null
                     && !string.IsNullOrEmpty(n.Parameter.ParameterSet))
                     .Select(n => n.Parameter.ParameterSet)
                     .FirstOrDefault();
@@ -67,7 +67,7 @@ namespace BitPantry.Theta.Processing
         {
             int ordinalParameterIndex = 1;
 
-            foreach (var node in this.Input.InputNodes)
+            foreach (var node in Input.InputNodes)
             {
                 switch (node.ElementType)
                 {
@@ -89,11 +89,11 @@ namespace BitPantry.Theta.Processing
         {
             // get parameter definition - add resolution error and exit if not found
 
-            ParameterDef param = this.GetParameterDefinition(node.Value);
+            ParameterDef param = GetParameterDefinition(node.Value);
 
             if (param == null) // parameter is not defined in defintion
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.NamedParameter,
                     IsComplete = false,
@@ -101,9 +101,9 @@ namespace BitPantry.Theta.Processing
                     ResolutionError = string.Format("Parameter '{0}' is undefined", node.Value)
                 });
             }
-            else if (this.Nodes.Exists(n => n.Parameter == param)) // parameter is already specified in input
+            else if (Nodes.Exists(n => n.Parameter == param)) // parameter is already specified in input
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.NamedParameter,
                     IsComplete = false,
@@ -113,7 +113,7 @@ namespace BitPantry.Theta.Processing
             }
             else // resolve node
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.NamedParameter,
                     IsComplete = node.IsPairedWith != null,
@@ -127,11 +127,11 @@ namespace BitPantry.Theta.Processing
         {
             // get switch definition = add resolution error and exit if not found
 
-            SwitchDef def = this.GetSwitchDefinition(node.Value);
+            SwitchDef def = GetSwitchDefinition(node.Value);
 
             if (def == null) // switch is not defined in current definition
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.Switch,
                     IsComplete = false,
@@ -139,9 +139,9 @@ namespace BitPantry.Theta.Processing
                     ResolutionError = string.Format("Switch '{0}' is undefined", node.Value)
                 });
             }
-            else if (this.Nodes.Exists(n => n.Switch == def)) // build resolver node if not already defined
+            else if (Nodes.Exists(n => n.Switch == def)) // build resolver node if not already defined
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.Switch,
                     IsComplete = false,
@@ -151,7 +151,7 @@ namespace BitPantry.Theta.Processing
             }
             else // resolve node
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.Switch,
                     IsComplete = true,
@@ -165,11 +165,11 @@ namespace BitPantry.Theta.Processing
         {
             // locate ordinal index
 
-            ParameterDef param = this.CommandDefinition.Parameters.FirstOrDefault(p => p.OrdinalPosition == index);
+            ParameterDef param = CommandDefinition.Parameters.FirstOrDefault(p => p.OrdinalPosition == index);
 
             if (param == null) // ordinal parameter is not defined for current defintion
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.OrdinalParameter,
                     IsComplete = false,
@@ -181,7 +181,7 @@ namespace BitPantry.Theta.Processing
             }
             else
             {
-                this.Nodes.Add(new CommandResolverNode()
+                Nodes.Add(new CommandResolverNode()
                 {
                     Type = CRNodeType.OrdinalParameter,
                     IsComplete = true,
@@ -197,31 +197,31 @@ namespace BitPantry.Theta.Processing
         {
             if (node.ElementType == InputNodeType.NamedParameter)
             {
-                return this.Nodes.FirstOrDefault(n => n.Parameter != null && n.InputNode == node);
+                return Nodes.FirstOrDefault(n => n.Parameter != null && n.InputNode == node);
             }
             else if (node.ElementType == InputNodeType.NamedParameterValue)
             {
-                return this.Nodes.FirstOrDefault(n => n.Parameter != null && n.InputNode.IsPairedWith == node);
+                return Nodes.FirstOrDefault(n => n.Parameter != null && n.InputNode.IsPairedWith == node);
             }
             else if (node.ElementType == InputNodeType.OrdinalParameterValue)
             {
-                var ordinalParameterInputNodes = this.Input.InputNodes.Where(n => n.ElementType == InputNodeType.OrdinalParameterValue).ToList();
+                var ordinalParameterInputNodes = Input.InputNodes.Where(n => n.ElementType == InputNodeType.OrdinalParameterValue).ToList();
                 int ordinalIndex = ordinalParameterInputNodes.IndexOf(node) + 1;
 
-                return this.Nodes
+                return Nodes
                     .Where(n => n.Parameter != null && n.Parameter.OrdinalPosition == ordinalIndex)
                     .FirstOrDefault();
             }
             else if (node.ElementType == InputNodeType.Switch)
             {
-                return this.Nodes.FirstOrDefault(n => n.Switch != null && n.InputNode == node);
+                return Nodes.FirstOrDefault(n => n.Switch != null && n.InputNode == node);
             }
             else if (node.ElementType == InputNodeType.Empty)
             {
                 // try to find preceeding named parameter node - cannot find ordinal here because a node is not created for ordinals that don't yet exist
 
                 if (node.Index > 0)
-                    return this.Nodes
+                    return Nodes
                         .FirstOrDefault(n => n.InputNode.Index == node.Index - 1 && n.Type == CRNodeType.NamedParameter);
             }
 
@@ -232,13 +232,13 @@ namespace BitPantry.Theta.Processing
 
         private ParameterDef GetParameterDefinition(string parameterName)
         {
-            return this.CommandDefinition.Parameters.FirstOrDefault(p => p.Name.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
+            return CommandDefinition.Parameters.FirstOrDefault(p => p.Name.Equals(parameterName, StringComparison.OrdinalIgnoreCase)
                 || p.Aliases.Contains(parameterName, StringComparer.OrdinalIgnoreCase));
         }
 
         private SwitchDef GetSwitchDefinition(string switchName)
         {
-            return this.CommandDefinition.Switches.FirstOrDefault(p => p.Name.Equals(switchName, StringComparison.OrdinalIgnoreCase)
+            return CommandDefinition.Switches.FirstOrDefault(p => p.Name.Equals(switchName, StringComparison.OrdinalIgnoreCase)
                 || p.Aliases.Contains(switchName, StringComparer.OrdinalIgnoreCase));
         }
 

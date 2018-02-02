@@ -12,8 +12,8 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public InputEventsFilterHandlerArgs(KeyInputFilterResult result)
         {
-            this.Result = result;
-            this.IsHandled = false;
+            Result = result;
+            IsHandled = false;
         }
     }
 }

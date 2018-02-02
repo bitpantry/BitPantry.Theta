@@ -21,7 +21,7 @@ namespace BitPantry.Theta.API
         /// Creates an instance of the Synopsis class
         /// </summary>
         /// <param name="value">The value of the synopsis</param>
-        public Synopsis(string value) { this.Value = value; }
+        public Synopsis(string value) { Value = value; }
 
     }
 }

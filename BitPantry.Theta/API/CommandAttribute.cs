@@ -26,8 +26,8 @@ namespace BitPantry.Theta.API
         /// <param name="name">The name of the command - if null, the class name will be used</param>
         public Command(string name=null, string defaultParameterSet=null) 
         {
-            this.Name = name;
-            this.DefaultParameterSet = defaultParameterSet;
+            Name = name;
+            DefaultParameterSet = defaultParameterSet;
         }
     }
 }

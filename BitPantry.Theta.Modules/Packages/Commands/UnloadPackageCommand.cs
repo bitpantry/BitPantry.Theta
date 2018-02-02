@@ -17,7 +17,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
         public override void Invoke(CommandInvocationContext context)
         {
             PackageLogic.Instance.Unload(PackageLogic.Instance.LoadedPackages
-                .FirstOrDefault(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase)), base.Host.Modules, base.Out);
+                .FirstOrDefault(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase)), base.Host.Modules, base.Out);
             base.Out.Standard.WriteLine("Package unloaded.");
         }
 

@@ -13,7 +13,7 @@ namespace BitPantry.Theta.API
 
         internal AutoCompleteValuesFunctionContext()
         {
-            this.Values = new List<string>();
+            Values = new List<string>();
         }
 
     }

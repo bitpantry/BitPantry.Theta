@@ -55,35 +55,35 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public InputEventsFilterCollection(HostInterface hostInterface) 
         {
-            this._hostInterface = hostInterface;
+            _hostInterface = hostInterface;
 
             // initialize filters
 
-            this._filters = new Dictionary<FilterKey, IInputEventsFilter>()
+            _filters = new Dictionary<FilterKey, IInputEventsFilter>()
             {
-                { FilterKey.FullBlock, new ExecutionBlockEventsFilter(this.HandleResultAction) },
-                { FilterKey.Base, new BaseInputEventsFilter(this.HandleResultAction) },
-                { FilterKey.Standard, new StandardInputEventsFilter(this.HandleResultAction) },
-                { FilterKey.CommandExecutionPrompt, new CommandExecutionPromptEventsFilter(this.HandleResultAction) },
-                { FilterKey.AutoComplete, new AutoCompleteInputEventsFilter(this.HandleResultAction) }
+                { FilterKey.FullBlock, new ExecutionBlockEventsFilter(HandleResultAction) },
+                { FilterKey.Base, new BaseInputEventsFilter(HandleResultAction) },
+                { FilterKey.Standard, new StandardInputEventsFilter(HandleResultAction) },
+                { FilterKey.CommandExecutionPrompt, new CommandExecutionPromptEventsFilter(HandleResultAction) },
+                { FilterKey.AutoComplete, new AutoCompleteInputEventsFilter(HandleResultAction) }
             };
 
             // initialize subscriptions
 
-            this._subscriptions = new List<Action<InputEventsFilterHandlerArgs>>();
+            _subscriptions = new List<Action<InputEventsFilterHandlerArgs>>();
 
             // wire up events
 
-            this._hostInterface.RTB.KeyDown += rtb_KeyDown;
-            this._hostInterface.RTB.KeyUp += rtb_KeyUp;
-            this._hostInterface.RTB.KeyPress += rtb_KeyPress;
-            this._hostInterface.OnCopy += _hostInterface_OnCopy;
+            _hostInterface.RTB.KeyDown += rtb_KeyDown;
+            _hostInterface.RTB.KeyUp += rtb_KeyUp;
+            _hostInterface.RTB.KeyPress += rtb_KeyPress;
+            _hostInterface.OnCopy += _hostInterface_OnCopy;
         }
 
         private void HandleResultAction(KeyInputFilterResult result)
         {
             var args = new InputEventsFilterHandlerArgs(result);
-            foreach (var subscription in this._subscriptions)
+            foreach (var subscription in _subscriptions)
             {
                 subscription(args);
                 if (args.IsHandled)
@@ -93,7 +93,7 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         public void RegisterSubscription(Action<InputEventsFilterHandlerArgs> resultHandlerAction)
         {
-            this._subscriptions.Add(resultHandlerAction);
+            _subscriptions.Add(resultHandlerAction);
         }
 
         public void SetFilterMode(FilterMode mode)
@@ -101,32 +101,32 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
             switch (mode)
             {
                 case FilterMode.Execution:
-                    this._filters[FilterKey.FullBlock].Engage();
-                    this._filters[FilterKey.Base].Disengage();
-                    this._filters[FilterKey.AutoComplete].Disengage();
-                    this._filters[FilterKey.CommandExecutionPrompt].Disengage();
-                    this._filters[FilterKey.Standard].Disengage();
+                    _filters[FilterKey.FullBlock].Engage();
+                    _filters[FilterKey.Base].Disengage();
+                    _filters[FilterKey.AutoComplete].Disengage();
+                    _filters[FilterKey.CommandExecutionPrompt].Disengage();
+                    _filters[FilterKey.Standard].Disengage();
                     break;
                 case FilterMode.Standard:
-                    this._filters[FilterKey.FullBlock].Disengage();
-                    this._filters[FilterKey.Base].Engage();
-                    this._filters[FilterKey.AutoComplete].Disengage();
-                    this._filters[FilterKey.CommandExecutionPrompt].Disengage();
-                    this._filters[FilterKey.Standard].Engage();
+                    _filters[FilterKey.FullBlock].Disengage();
+                    _filters[FilterKey.Base].Engage();
+                    _filters[FilterKey.AutoComplete].Disengage();
+                    _filters[FilterKey.CommandExecutionPrompt].Disengage();
+                    _filters[FilterKey.Standard].Engage();
                     break;
                 case FilterMode.CommandExecutionPrompt:
-                    this._filters[FilterKey.FullBlock].Disengage();
-                    this._filters[FilterKey.Base].Engage();
-                    this._filters[FilterKey.AutoComplete].Disengage();
-                    this._filters[FilterKey.CommandExecutionPrompt].Engage();
-                    this._filters[FilterKey.Standard].Disengage();
+                    _filters[FilterKey.FullBlock].Disengage();
+                    _filters[FilterKey.Base].Engage();
+                    _filters[FilterKey.AutoComplete].Disengage();
+                    _filters[FilterKey.CommandExecutionPrompt].Engage();
+                    _filters[FilterKey.Standard].Disengage();
                     break;
                 case FilterMode.AutoComplete:
-                    this._filters[FilterKey.FullBlock].Disengage();
-                    this._filters[FilterKey.Base].Engage();
-                    this._filters[FilterKey.AutoComplete].Engage();
-                    this._filters[FilterKey.CommandExecutionPrompt].Disengage();
-                    this._filters[FilterKey.Standard].Disengage();
+                    _filters[FilterKey.FullBlock].Disengage();
+                    _filters[FilterKey.Base].Engage();
+                    _filters[FilterKey.AutoComplete].Engage();
+                    _filters[FilterKey.CommandExecutionPrompt].Disengage();
+                    _filters[FilterKey.Standard].Disengage();
                     break;
             }
         }
@@ -135,18 +135,18 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         private InputEventsFilterArgs CreateKeyInputFilterArgs()
         {
-            return new InputEventsFilterArgs() { InputPosition = this._hostInterface.InputPosition };
+            return new InputEventsFilterArgs() { InputPosition = _hostInterface.InputPosition };
         }
 
-        void rtb_KeyPress(object sender, KeyPressEventArgs e) { this.HandleKeyPress(this.CreateKeyInputFilterArgs(), e); }
-        void rtb_KeyUp(object sender, KeyEventArgs e) { this.HandleKeyUp(this.CreateKeyInputFilterArgs(), e); }
-        void rtb_KeyDown(object sender, KeyEventArgs e) { this.HandleKeyDown(this.CreateKeyInputFilterArgs(), e); }
+        void rtb_KeyPress(object sender, KeyPressEventArgs e) { HandleKeyPress(CreateKeyInputFilterArgs(), e); }
+        void rtb_KeyUp(object sender, KeyEventArgs e) { HandleKeyUp(CreateKeyInputFilterArgs(), e); }
+        void rtb_KeyDown(object sender, KeyEventArgs e) { HandleKeyDown(CreateKeyInputFilterArgs(), e); }
 
         private void HandleKeyDown(InputEventsFilterArgs args, KeyEventArgs e)
         {
-            this.EventArgs = new InputEvents() { KeysDownData = e };
+            EventArgs = new InputEvents() { KeysDownData = e };
 
-            foreach (var filter in this._filters.Values)
+            foreach (var filter in _filters.Values)
             {
                 if (filter.IsEngaged)
                 {
@@ -158,9 +158,9 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         private void HandleKeyUp(InputEventsFilterArgs args, KeyEventArgs e)
         {
-            this.EventArgs = new InputEvents() { KeyUpData = e };
+            EventArgs = new InputEvents() { KeyUpData = e };
 
-            foreach (var filter in this._filters.Values)
+            foreach (var filter in _filters.Values)
             {
                 if (filter.IsEngaged)
                 {
@@ -172,9 +172,9 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         private void HandleKeyPress(InputEventsFilterArgs args, KeyPressEventArgs e)
         {
-            this.EventArgs = new InputEvents() { KeyPressData = e };
+            EventArgs = new InputEvents() { KeyPressData = e };
 
-            foreach (var filter in this._filters.Values)
+            foreach (var filter in _filters.Values)
             {
                 if (filter.IsEngaged)
                 {
@@ -186,9 +186,9 @@ namespace BitPantry.Theta.Host.WindowsForms.InputEventsFilter
 
         private void _hostInterface_OnCopy(CopyEventArgs e)
         {
-            this.EventArgs = new InputEvents() { CopyEventArgs = e };
+            EventArgs = new InputEvents() { CopyEventArgs = e };
 
-            foreach (var filter in this._filters.Values)
+            foreach (var filter in _filters.Values)
             {
                 if (filter.IsEngaged)
                 {

@@ -24,11 +24,11 @@ namespace BitPantry.Theta.Modules.Core.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            var asm = this.LoadAssembly();
+            var asm = LoadAssembly();
 
             List<string> modulesToInstall = null;
-            if (!string.IsNullOrWhiteSpace(this.Modules))
-                modulesToInstall = new List<string>(this.Modules.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            if (!string.IsNullOrWhiteSpace(Modules))
+                modulesToInstall = new List<string>(Modules.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
             bool success = true;
             int count = 0;
@@ -68,29 +68,29 @@ namespace BitPantry.Theta.Modules.Core.Commands
         private System.Reflection.Assembly LoadAssembly()
         {
             System.Reflection.Assembly asm = null;
-            if (File.Exists(this.Assembly))
+            if (File.Exists(Assembly))
             {
-                string fileName = new FileInfo(this.Assembly).FullName;
+                string fileName = new FileInfo(Assembly).FullName;
                 base.Out.Verbose.WriteLine(string.Format("Loading assembly from file {0}", fileName));
                 asm = System.Reflection.Assembly.LoadFile(fileName);
             }
             else
             {
-                base.Out.Verbose.WriteLine(string.Format("Loading assembly from assembly string '{0}'", this.Assembly));
-                asm = System.Reflection.Assembly.Load(this.Assembly);
+                base.Out.Verbose.WriteLine(string.Format("Loading assembly from assembly string '{0}'", Assembly));
+                asm = System.Reflection.Assembly.Load(Assembly);
             }
 
             if (asm == null)
-                throw new Exception(string.Format("No assembly could be loaded from assembly string '{0}'", this.Assembly));
+                throw new Exception(string.Format("No assembly could be loaded from assembly string '{0}'", Assembly));
 
             return asm;
         }
 
         public void GetModuleNamesAutoComplete(AutoCompleteValuesFunctionContext context)
         {
-            if (!string.IsNullOrWhiteSpace(this.Assembly))
+            if (!string.IsNullOrWhiteSpace(Assembly))
             {
-                var asm = this.LoadAssembly();
+                var asm = LoadAssembly();
                 context.Values.AddRange(asm.GetTypes().Where(t => t.GetInterface(typeof(IModule).FullName) != null).Select(t => ((IModule)Activator.CreateInstance(t)).Name));
             }
         }

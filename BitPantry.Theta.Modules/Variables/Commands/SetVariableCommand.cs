@@ -41,10 +41,10 @@ namespace BitPantry.Theta.Modules.Variables.Commands
         {
             var contextsToApply = new List<VariableContext>();
 
-            if (!this.AllContexts.IsPresent) // apply to specified or default context
+            if (!AllContexts.IsPresent) // apply to specified or default context
             {
                 VariableContext ctx = null;
-                if (string.IsNullOrEmpty(this.Context)) // try to use the current context
+                if (string.IsNullOrEmpty(Context)) // try to use the current context
                 {
                     if (VariableContextLogic.Instance.CurrentContext == null)
                     {
@@ -57,10 +57,10 @@ namespace BitPantry.Theta.Modules.Variables.Commands
                 }
                 else // try to create and / or use the specified context
                 {
-                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
-                    if (ctx == null && base.Confirm(string.Format("The context '{0}' does not exist and will be created", this.Context), Component.ConfirmationResult.Yes))
+                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
+                    if (ctx == null && base.Confirm(string.Format("The context '{0}' does not exist and will be created", Context), Component.ConfirmationResult.Yes))
                     {
-                        ctx = new VariableContext() { Name = this.Context };
+                        ctx = new VariableContext() { Name = Context };
                         VariableContextLogic.Instance.VariableContextCollection.Contexts.Add(ctx);
                         VariableContextLogic.Instance.Save();
                     }
@@ -84,30 +84,30 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
             foreach (var ctxToApply in contextsToApply)
             {
-                if (ctxToApply.Variables.Any(v => v.Name.Equals(this.Name)))
+                if (ctxToApply.Variables.Any(v => v.Name.Equals(Name)))
                 {
-                    if (this.AllContexts.IsPresent)
+                    if (AllContexts.IsPresent)
                         base.Out.Verbose.WriteLine(string.Format("Updating variable '{0}' for context '{1}' with value '{2}'"
-                            , this.Name, ctxToApply.Name, this.Value));
+                            , Name, ctxToApply.Name, Value));
                     else
                         base.Out.Verbose.WriteLine(string.Format("Updating variable '{0}' with value '{1}'"
-                            , this.Name, this.Value));
+                            , Name, Value));
 
-                    ctxToApply.Variables.FirstOrDefault(v => v.Name.Equals(this.Name)).Value = this.Value;
+                    ctxToApply.Variables.FirstOrDefault(v => v.Name.Equals(Name)).Value = Value;
                 }
                 else
                 {
-                    if (this.AllContexts.IsPresent)
+                    if (AllContexts.IsPresent)
                         base.Out.Verbose.WriteLine(string.Format("Creating variable '{0}' for context '{1}' with value '{2}'"
-                            , this.Name, ctxToApply.Name, this.Value));
+                            , Name, ctxToApply.Name, Value));
                     else
                         base.Out.Verbose.WriteLine(string.Format("Creating variable '{0}' with value '{1}"
-                            , this.Name, this.Value));
+                            , Name, Value));
 
                     ctxToApply.Variables.Add(new VariableContextVariable()
                     {
-                        Name = this.Name,
-                        Value = this.Value
+                        Name = Name,
+                        Value = Value
                     });
                 }
             }
@@ -116,8 +116,8 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
             base.Out.Object.Table(TableRecords.CreateVariableRecordList(new VariableContextVariable()
             {
-                Name = this.Name,
-                Value = this.Value
+                Name = Name,
+                Value = Value
             }));
         }
 
@@ -128,7 +128,7 @@ namespace BitPantry.Theta.Modules.Variables.Commands
 
         public void GetVariableNamesAutoComplete(AutoCompleteValuesFunctionContext context)
         {
-            if (this.AllContexts.IsPresent)
+            if (AllContexts.IsPresent)
             {
                 context.Values.AddRange(VariableContextLogic.Instance.VariableContextCollection.Contexts
                     .SelectMany(c => c.Variables.Select(v => v.Name)).Distinct().ToList());
@@ -136,8 +136,8 @@ namespace BitPantry.Theta.Modules.Variables.Commands
             else
             {
                 var ctx = VariableContextLogic.Instance.CurrentContext;
-                if (ctx == null && !string.IsNullOrWhiteSpace(this.Context))
-                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
+                if (ctx == null && !string.IsNullOrWhiteSpace(Context))
+                    ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
 
                 if (ctx == null)
                     return;

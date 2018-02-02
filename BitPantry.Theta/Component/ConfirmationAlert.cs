@@ -22,7 +22,7 @@ namespace BitPantry.Theta.Component
 
         public ConfirmationAlert(IHostInterface host)
         {
-            this._host = host;
+            _host = host;
         }
 
         public ConfirmationResult Confirm(string message, ConfirmationResult defaultResult)
@@ -30,11 +30,11 @@ namespace BitPantry.Theta.Component
             var result = ConfirmationResult.Undefined;
             do
             {
-                result = this.Confirm_INTERNAL(message, defaultResult);
+                result = Confirm_INTERNAL(message, defaultResult);
                 if (result == ConfirmationResult.Undefined)
                 {
-                    this._host.Out.Warning.WriteLine("Please enter [Y]es or [N]o.");
-                    this._host.Out.Standard.WriteLine();
+                    _host.Out.Warning.WriteLine("Please enter [Y]es or [N]o.");
+                    _host.Out.Standard.WriteLine();
                 }
             } while (result == ConfirmationResult.Undefined);
             return result;
@@ -42,36 +42,36 @@ namespace BitPantry.Theta.Component
 
         private ConfirmationResult Confirm_INTERNAL(string message, ConfirmationResult defaultResult)
         {
-            this._host.Out.Standard.WriteLine(message);
-            this._host.Out.Standard.Write("Enter ");
+            _host.Out.Standard.WriteLine(message);
+            _host.Out.Standard.Write("Enter ");
             
             if(defaultResult == ConfirmationResult.Yes)
-                this._host.Out.Accent2.Write("[Y]es");
+                _host.Out.Accent2.Write("[Y]es");
             else
-                this._host.Out.Standard.Write("[Y]es");
+                _host.Out.Standard.Write("[Y]es");
 
-            this._host.Out.Standard.Write(" to confirm, or ");
+            _host.Out.Standard.Write(" to confirm, or ");
 
             if(defaultResult == ConfirmationResult.No)
-                this._host.Out.Accent2.Write("[N]o");
+                _host.Out.Accent2.Write("[N]o");
             else
-                this._host.Out.Standard.Write("[N]o");
+                _host.Out.Standard.Write("[N]o");
 
-            this._host.Out.Standard.Write(" to cancel");
+            _host.Out.Standard.Write(" to cancel");
 
             if (defaultResult != ConfirmationResult.Undefined)
             {
-                this._host.Out.Standard.Write(" (");
+                _host.Out.Standard.Write(" (");
 
                 if(defaultResult == ConfirmationResult.Yes)
-                    this._host.Out.Standard.Write("Yes");
+                    _host.Out.Standard.Write("Yes");
                 else
-                    this._host.Out.Standard.Write("No");
+                    _host.Out.Standard.Write("No");
 
-                this._host.Out.Standard.WriteLine(" is default).");
+                _host.Out.Standard.WriteLine(" is default).");
             }
 
-            return this.EvaluateResponse(this._host.Prompt("Confirmation: "), defaultResult);
+            return EvaluateResponse(_host.Prompt("Confirmation: "), defaultResult);
         }
 
         private ConfirmationResult EvaluateResponse(string response, ConfirmationResult defaultResult)

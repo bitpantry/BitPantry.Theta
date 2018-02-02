@@ -25,7 +25,7 @@ namespace BitPantry.Theta.Modules.Variables.Commands
         {
             VariableContextLogic.Instance.CurrentContext 
                 = VariableContextLogic.Instance.VariableContextCollection.Contexts
-                .FirstOrDefault(c => c.Name.Equals(this.Context, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(c => c.Name.Equals(Context, StringComparison.OrdinalIgnoreCase));
             base.Out.Object.Table(TableRecords.CreateVariableContextRecordList(VariableContextLogic.Instance.CurrentContext));
         }
     }

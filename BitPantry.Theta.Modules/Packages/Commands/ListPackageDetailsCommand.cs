@@ -18,7 +18,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
         public override void Invoke(CommandInvocationContext context)
         {
             var pkg = PackageLogic.Instance.PackagesCollection.Packages
-                .FirstOrDefault(e => e.Name.Equals(this.Package, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(e => e.Name.Equals(Package, StringComparison.OrdinalIgnoreCase));
 
             base.Out.Standard.WriteLine();
             base.Out.Standard.WriteLine(string.Format("     Package:        {0}", pkg.Name));

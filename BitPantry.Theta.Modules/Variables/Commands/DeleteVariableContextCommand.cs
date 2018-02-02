@@ -22,9 +22,9 @@ namespace BitPantry.Theta.Modules.Variables.Commands
         public override void Invoke(CommandInvocationContext context)
         {
 
-            var ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase));
+            var ctx = VariableContextLogic.Instance.VariableContextCollection.Contexts.FirstOrDefault(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase));
 
-            if (VariableContextLogic.Instance.CurrentContext == ctx && !this.Force.IsPresent)
+            if (VariableContextLogic.Instance.CurrentContext == ctx && !Force.IsPresent)
             {
                 base.Out.Warning.WriteLine("The context is loaded. Unload the context, or use the 'Force' switch");
             }

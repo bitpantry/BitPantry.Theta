@@ -28,18 +28,18 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            var asm = Util.LoadAssembly(this.Assembly);
+            var asm = Util.LoadAssembly(Assembly);
             if (asm == null)
             {
-                base.Out.Error.WriteLine(string.Format("Could not load assembly from assembly string '{0}'", this.Assembly));
+                base.Out.Error.WriteLine(string.Format("Could not load assembly from assembly string '{0}'", Assembly));
                 return;
             }              
 
-            Package pkg = PackageLogic.Instance.PackagesCollection.Packages.FirstOrDefault(e => e.Name.Equals(this.Package, StringComparison.OrdinalIgnoreCase));
+            Package pkg = PackageLogic.Instance.PackagesCollection.Packages.FirstOrDefault(e => e.Name.Equals(Package, StringComparison.OrdinalIgnoreCase));
 
             List<string> modulesToInstall = null;
-            if (!string.IsNullOrWhiteSpace(this.Modules))
-                modulesToInstall = new List<string>(this.Modules.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            if (!string.IsNullOrWhiteSpace(Modules))
+                modulesToInstall = new List<string>(Modules.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
             int count = 0;
 
@@ -55,7 +55,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
                     if (add)
                     {
                         base.Out.Verbose.WriteLine(string.Format("Adding module '{0}' from type '{1}'", module.Name, type));
-                        if (this.AddModule(pkg, module))
+                        if (AddModule(pkg, module))
                             count++;
                     }
                 }
@@ -92,7 +92,7 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
                 pkg.Modules.Add(new PackageModule()
                 {
-                    Assembly = this.Assembly,
+                    Assembly = Assembly,
                     ModuleType = module.GetType().FullName,
                     Name = module.Name
                 });
@@ -115,9 +115,9 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
         public void GetModuleNamesAutoComplete(AutoCompleteValuesFunctionContext context)
         {
-            if (!string.IsNullOrWhiteSpace(this.Assembly))
+            if (!string.IsNullOrWhiteSpace(Assembly))
             {
-                var asm = Util.LoadAssembly(this.Assembly, base.Out);
+                var asm = Util.LoadAssembly(Assembly, base.Out);
                 if (asm == null)
                     return;
                 context.Values.AddRange(asm.GetTypes().Where(t => t.GetInterface(typeof(IModule).FullName) != null).Select(t => ((IModule)Activator.CreateInstance(t)).Name));

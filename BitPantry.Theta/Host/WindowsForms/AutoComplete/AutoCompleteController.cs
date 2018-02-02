@@ -21,14 +21,14 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
 
         public AutoCompleteController(HostInterface hostInterface)
         {
-            this._hostInterface = hostInterface;
-            this._hostInterface.RTB.LostFocus += _rtb_LostFocus;
-            this._hostInterface.RTB.TextChanged += _rtb_TextChanged;
-            this._hostInterface.RTB.SelectionChanged += _rtb_SelectionChanged;
-            
-            this._provider = new AutoCompleteProvider(this._hostInterface);
+            _hostInterface = hostInterface;
+            _hostInterface.RTB.LostFocus += _rtb_LostFocus;
+            _hostInterface.RTB.TextChanged += _rtb_TextChanged;
+            _hostInterface.RTB.SelectionChanged += _rtb_SelectionChanged;
 
-            this._hostInterface.InputFilters.RegisterSubscription(this.HandleKeyInputResultAction);            
+            _provider = new AutoCompleteProvider(_hostInterface);
+
+            _hostInterface.InputFilters.RegisterSubscription(HandleKeyInputResultAction);            
         }
 
         private void HandleKeyInputResultAction(InputEventsFilterHandlerArgs args)
@@ -36,37 +36,37 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
             switch (args.Result)
             {
                 case KeyInputFilterResult.AutoComplete_Start:
-                    if(this._hostInterface.InputPosition > -1)
-                        this.DoAutoComplete();
+                    if(_hostInterface.InputPosition > -1)
+                        DoAutoComplete();
                     break;
                 case KeyInputFilterResult.AutoComplete_Cancel:
-                    this.CancelCurrentAutoComplete();
+                    CancelCurrentAutoComplete();
                     break;
                 case KeyInputFilterResult.AutoComplete_SelectPrevious:
-                    this.SelectPreviousOption();
+                    SelectPreviousOption();
                     break;
                 case KeyInputFilterResult.AutoComplete_SelectNext:
-                    this.SelectNextOption();
+                    SelectNextOption();
                     break;
                 case KeyInputFilterResult.AutoComplete_Submit:
-                    this.SubmitCurrentSelection();
+                    SubmitCurrentSelection();
                     break;
             }
         }
 
         void _rtb_LostFocus(object sender, EventArgs e)
         {
-            this.CancelCurrentAutoComplete();
+            CancelCurrentAutoComplete();
         }
 
         void _rtb_TextChanged(object sender, EventArgs e)
         {
-            this.FilterOptionsByCurrentNode();
+            FilterOptionsByCurrentNode();
         }
 
         void _rtb_SelectionChanged(object sender, EventArgs e)
         {
-            this.EvaluateNodeScope();
+            EvaluateNodeScope();
         }
 
         #region AUTO COMPLETE ACTIONS
@@ -75,64 +75,64 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         {
             // create form if not exists
 
-            if (this._autoCompleteForm == null)
+            if (_autoCompleteForm == null)
             {
                 // initialize and wire up new form
 
-                this._autoCompleteForm = new frmAutoComplete();
-                this._autoCompleteForm.AutoCompleteComplete += _autoCompleteForm_AutoCompleteComplete;
+                _autoCompleteForm = new frmAutoComplete();
+                _autoCompleteForm.AutoCompleteComplete += _autoCompleteForm_AutoCompleteComplete;
 
                 // install message filter to listen for lost focus
 
-                AutoCompleteMessageFilter.Install(this._autoCompleteForm);
+                AutoCompleteMessageFilter.Install(_autoCompleteForm);
             }
 
             // set auto complete options
 
-            this._currentInput = this._hostInterface.GetCurrentInput();
-            this._currentInputNode = this._currentInput.GetNodeAtPosition(this._hostInterface.InputPosition);
+            _currentInput = _hostInterface.GetCurrentInput();
+            _currentInputNode = _currentInput.GetNodeAtPosition(_hostInterface.InputPosition);
 
-            List<string> autoCompleteOptions = this._provider.GetOptions(this._currentInput, this._currentInputNode);
+            List<string> autoCompleteOptions = _provider.GetOptions(_currentInput, _currentInputNode);
 
             if (autoCompleteOptions != null && autoCompleteOptions.Count == 1)
             {
                 string value = autoCompleteOptions[0];
                 if (value.IndexOf(' ') > 0)
                     value = string.Format("\"{0}\"", value);
-                this._hostInterface.ReplaceCurrentNode(value);
+                _hostInterface.ReplaceCurrentNode(value);
             }
             else if (autoCompleteOptions != null && autoCompleteOptions.Count > 1) // only show if options are available
             {
-                this._autoCompleteForm.SetAutoCompleteOptions(autoCompleteOptions);
+                _autoCompleteForm.SetAutoCompleteOptions(autoCompleteOptions);
 
                 // get the location of the caret, plus the line height as the auto complete form open point
 
-                this._autoCompleteForm.Location = this.GetPopupLocation(this._hostInterface.CaretLocation, this._hostInterface.RTB.SelectionFont.Height);
+                _autoCompleteForm.Location = GetPopupLocation(_hostInterface.CaretLocation, _hostInterface.RTB.SelectionFont.Height);
 
                 // open the auto complete form
 
-                this._autoCompleteForm.Show();
+                _autoCompleteForm.Show();
 
                 // adjust key input filter settings
 
-                this._hostInterface.InputFilters.SetFilterMode(FilterMode.AutoComplete);
+                _hostInterface.InputFilters.SetFilterMode(FilterMode.AutoComplete);
             }
      
         }
 
         void _autoCompleteForm_AutoCompleteComplete(DialogResult result)
         {
-            this._hostInterface.InputFilters.SetFilterMode(FilterMode.Standard);
+            _hostInterface.InputFilters.SetFilterMode(FilterMode.Standard);
             if (result == DialogResult.OK)
             {
-                string value = this._autoCompleteForm.SelectedValue;
+                string value = _autoCompleteForm.SelectedValue;
                 if (value.IndexOf(' ') > 0)
                     value = string.Format("\"{0}\"", value);
-                this._hostInterface.ReplaceCurrentNode(value);
+                _hostInterface.ReplaceCurrentNode(value);
             }
 
-            this._currentInput = null;
-            this._currentInputNode = null;
+            _currentInput = null;
+            _currentInputNode = null;
         }
 
         private Point GetPopupLocation(Point targetLocation, int lineHeight)
@@ -147,53 +147,53 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
             
             // adjusts for popup height
 
-            if (Screen.PrimaryScreen.WorkingArea.Height < targetLocation.Y + this._autoCompleteForm.OptionsBoxHeight)
-                pt.Y = targetLocation.Y - this._autoCompleteForm.OptionsBoxHeight - lineHeight - padding; // display popup above line
+            if (Screen.PrimaryScreen.WorkingArea.Height < targetLocation.Y + _autoCompleteForm.OptionsBoxHeight)
+                pt.Y = targetLocation.Y - _autoCompleteForm.OptionsBoxHeight - lineHeight - padding; // display popup above line
             else
                 pt.Y += padding; // add padding to display below
 
             // adjusts for popup width
 
-            if (Screen.PrimaryScreen.WorkingArea.Width < targetLocation.X + this._autoCompleteForm.OptionsBoxWidth)
-                pt.X = targetLocation.X - this._autoCompleteForm.OptionsBoxWidth; // display popup to left
+            if (Screen.PrimaryScreen.WorkingArea.Width < targetLocation.X + _autoCompleteForm.OptionsBoxWidth)
+                pt.X = targetLocation.X - _autoCompleteForm.OptionsBoxWidth; // display popup to left
 
             return pt;
         }
 
         private void FilterOptionsByCurrentNode()
         {
-            if (this._autoCompleteForm != null && this._autoCompleteForm.Visible)
+            if (_autoCompleteForm != null && _autoCompleteForm.Visible)
             {
-                InputNode currentNode = this._hostInterface.GetCurrentInput().GetNodeAtPosition(this._hostInterface.InputPosition);
-                this._autoCompleteForm.FilterAutoCompleteOptions(currentNode == null ? null : currentNode.Value);
+                InputNode currentNode = _hostInterface.GetCurrentInput().GetNodeAtPosition(_hostInterface.InputPosition);
+                _autoCompleteForm.FilterAutoCompleteOptions(currentNode == null ? null : currentNode.Value);
             }
         }
 
         private void EvaluateNodeScope()
         {
-            if (this._autoCompleteForm != null && this._autoCompleteForm.Visible) 
+            if (_autoCompleteForm != null && _autoCompleteForm.Visible) 
             {
-                InputNode node = this._hostInterface.GetCurrentInput().GetNodeAtPosition(this._hostInterface.InputPosition);
+                InputNode node = _hostInterface.GetCurrentInput().GetNodeAtPosition(_hostInterface.InputPosition);
 
                 if (node == null) // started empty and is empty again
-                    this._autoCompleteForm.Cancel();
-                else if (this._currentInputNode == null && node != null && node.ElementType != InputNodeType.Command) // command - auto complete from empty input
-                    this._autoCompleteForm.Cancel();
-                else if (node.ElementType != InputNodeType.Command && this._currentInputNode.ElementType == InputNodeType.Empty
-                    && node.Index == this._currentInputNode.Index + 1) // ordinal parameter
+                    _autoCompleteForm.Cancel();
+                else if (_currentInputNode == null && node != null && node.ElementType != InputNodeType.Command) // command - auto complete from empty input
+                    _autoCompleteForm.Cancel();
+                else if (node.ElementType != InputNodeType.Command && _currentInputNode.ElementType == InputNodeType.Empty
+                    && node.Index == _currentInputNode.Index + 1) // ordinal parameter
                     return;
-                else if (this._currentInputNode != null && node.Index != this._currentInputNode.Index) // indexes no longer match, moved to a different node
-                    this._autoCompleteForm.Cancel();
+                else if (_currentInputNode != null && node.Index != _currentInputNode.Index) // indexes no longer match, moved to a different node
+                    _autoCompleteForm.Cancel();
             }
         }
 
-        private void CancelCurrentAutoComplete() { if (this._autoCompleteForm != null) this._autoCompleteForm.Cancel(); }
+        private void CancelCurrentAutoComplete() { if (_autoCompleteForm != null) _autoCompleteForm.Cancel(); }
 
-        private void SelectNextOption() { if (this._autoCompleteForm != null) this._autoCompleteForm.SelectNextOption(); }
+        private void SelectNextOption() { if (_autoCompleteForm != null) _autoCompleteForm.SelectNextOption(); }
 
-        private void SelectPreviousOption() { if (this._autoCompleteForm != null) this._autoCompleteForm.SelectPreviousOption(); }
+        private void SelectPreviousOption() { if (_autoCompleteForm != null) _autoCompleteForm.SelectPreviousOption(); }
 
-        private void SubmitCurrentSelection() { if (this._autoCompleteForm != null) this._autoCompleteForm.SubmitCurrentSelection(); }
+        private void SubmitCurrentSelection() { if (_autoCompleteForm != null) _autoCompleteForm.SubmitCurrentSelection(); }
 
         #endregion
 

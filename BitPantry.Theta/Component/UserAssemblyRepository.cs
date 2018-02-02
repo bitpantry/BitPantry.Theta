@@ -27,7 +27,7 @@ namespace BitPantry.Theta.Component
             get
             {
                 List<FileInfo> asmList = new List<FileInfo>();
-                var dir = new DirectoryInfo(this.UserAssemblyDirectoryPath);
+                var dir = new DirectoryInfo(UserAssemblyDirectoryPath);
                 asmList.AddRange(dir.GetFiles("*.dll"));
                 asmList.AddRange(dir.GetFiles("*.exe"));
                 return asmList.ToList().AsReadOnly();

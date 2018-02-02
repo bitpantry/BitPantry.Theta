@@ -21,10 +21,10 @@ namespace BitPantry.Theta.Modules.Packages.Commands
 
         public override void Invoke(CommandInvocationContext context)
         {
-            if (PackageLogic.Instance.PackagesCollection.Packages.Exists(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase)))
+            if (PackageLogic.Instance.PackagesCollection.Packages.Exists(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase)))
             {
-                if (PackageLogic.Instance.LoadedPackages.Exists(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase))
-                    && !this.Force.IsPresent)
+                if (PackageLogic.Instance.LoadedPackages.Exists(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase))
+                    && !Force.IsPresent)
                 {
                     base.Out.Warning.WriteLine("The package is loaded. Unload the package, or use the 'Force' switch to unload the package before removing.");
                 }
@@ -32,9 +32,9 @@ namespace BitPantry.Theta.Modules.Packages.Commands
                 {
                     if (base.Confirm("The package along with all associated modules will be deleted. This cannot be undone.", Component.ConfirmationResult.No))
                     {
-                        var pkg = PackageLogic.Instance.PackagesCollection.Packages.FirstOrDefault(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase));
+                        var pkg = PackageLogic.Instance.PackagesCollection.Packages.FirstOrDefault(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase));
 
-                        if (PackageLogic.Instance.LoadedPackages.Exists(e => e.Name.Equals(this.Name, StringComparison.OrdinalIgnoreCase)))
+                        if (PackageLogic.Instance.LoadedPackages.Exists(e => e.Name.Equals(Name, StringComparison.OrdinalIgnoreCase)))
                         {
                             PackageLogic.Instance.Unload(pkg, base.Host.Modules, base.Out);
                             base.Out.Standard.WriteLine("Package unloaded.");

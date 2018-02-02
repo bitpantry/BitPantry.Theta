@@ -44,15 +44,15 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         /// from the message loop at this time.</remarks>
         private AutoCompleteMessageFilter(frmAutoComplete autoCompleteForm)
         {
-            this.AutoCompleteForm = autoCompleteForm;
-            this.AutoCompleteForm.Disposed += AutoCompleteForm_Disposed;
+            AutoCompleteForm = autoCompleteForm;
+            AutoCompleteForm.Disposed += AutoCompleteForm_Disposed;
 
-            this.IsDisposed = false;
+            IsDisposed = false;
         }
 
         void AutoCompleteForm_Disposed(object sender, EventArgs e)
         {
-            this.Dispose();
+            Dispose();
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         /// <returns></returns>
         public bool PreFilterMessage(ref Message m)
         {
-            if (!this.IsDisposed && this.AutoCompleteForm != null)
+            if (!IsDisposed && AutoCompleteForm != null)
             {
                 switch (m.Msg)
                 {
@@ -86,8 +86,8 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         /// </summary>
         private void OnMouseDown()
         {
-            if (!this.AutoCompleteForm.Bounds.Contains(Cursor.Position))
-                this.AutoCompleteForm.Cancel();
+            if (!AutoCompleteForm.Bounds.Contains(Cursor.Position))
+                AutoCompleteForm.Cancel();
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace BitPantry.Theta.Host.WindowsForms.AutoComplete
         /// </summary>
         public void Dispose()
         {
-            lock (this.locker)
+            lock (locker)
             {
-                if (this.IsDisposed)
+                if (IsDisposed)
                     return;
 
                 Application.RemoveMessageFilter(this);
-                this.IsDisposed = true;
+                IsDisposed = true;
             }
         }
     }

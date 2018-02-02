@@ -22,8 +22,8 @@ namespace BitPantry.Theta.Modules.Variables.Commands
             {
                 var contextsToList = new List<VariableContext>(VariableContextLogic.Instance.VariableContextCollection.Contexts);
 
-                if (!string.IsNullOrWhiteSpace(this.Filter))
-                    contextsToList = contextsToList.Where(e => e.Name.IndexOf(this.Filter, StringComparison.OrdinalIgnoreCase) > -1).ToList();
+                if (!string.IsNullOrWhiteSpace(Filter))
+                    contextsToList = contextsToList.Where(e => e.Name.IndexOf(Filter, StringComparison.OrdinalIgnoreCase) > -1).ToList();
 
                 base.Out.Object.Write(TableRecords.CreateVariableContextRecordList(contextsToList.ToArray()));
 
