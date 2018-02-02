@@ -21,4 +21,3 @@ deploy:
   name: BitPantry NuGet
   on:
     branch: master
-    appveyor_repo_tag: true
