@@ -13,7 +13,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{CCEB8E32-337B-4500-9930-6E2AB1510BDA}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-		appveyor.yml.txt = appveyor.yml.txt
+		appveyor.yml = appveyor.yml
 	EndProjectSection
 EndProject
 Global
