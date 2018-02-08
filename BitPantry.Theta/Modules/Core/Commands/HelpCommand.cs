@@ -36,7 +36,7 @@ namespace BitPantry.Theta.Modules.Core.Commands
             WriteParameters(def);
             WriteSwitches(def);
 
-            var cmd = (InputCommand)Activator.CreateInstance(def.InputCommandType);
+            var cmd = Host.CommandActivatorContainer.Get(def.InputCommandType);
 
             if (Details.IsPresent)
                 WriteDetails(cmd);
